@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct Imager: Hashable {
-    var image: UIImage
-    var id = UUID()
+struct ImageViewModel: Hashable {
+    var largeSquare: String
+    var large: String
 }
 
 enum Section {
@@ -18,8 +18,8 @@ enum Section {
 
 class ViewController: UIViewController {
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Imager>
-    typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Imager>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageViewModel>
+    typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ImageViewModel>
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,26 +30,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureCollectionView()
-        
-        applySnapshot(images: self.dummyImages())
+        setupView()
+        setupCollectionView()
+    }
+    
+    private func setupView() {
         
         hideKeyboardWhenTappedAround()
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
-        
-        ImageServiceClient.shared.fetchImageInfoForTag("Cat", page: 1) { (result, error) in
-            
-            print(result?.imagesInfo)
-        }
-        
-        ImageServiceClient.shared.fetchImageSizeInfoForId("50590865663") { (result, error) in
-            
-            print(result?.imageSizeInfos.first)
-        }
     }
     
-    private func configureCollectionView() {
+    private func setupCollectionView() {
         
         collectionView.setGridLayout(withCellsPerRow: 2,
                                      cellPadding: 10.0)
@@ -65,13 +57,50 @@ class ViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell",
                                                           for: ip) as! ImageCollectionViewCell
             
-            cell.mainImageView.image = imageModel.image
+            let url = URL(string: imageModel.largeSquare)!
+            ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
+                cell.mainImageView.image = image
+            }
                                     
             return cell
         })
     }
+    
+    func loadImages(forTag tag: String) {
+        
+        ImageServiceClient.shared.fetchImageInfoForTag(tag, page: 1) { (result, error) in
+            
+            //            print(result?.imagesInfo)
+            guard let imageInfos = result?.imagesInfo else { return }
+            
+            var viewModels = [ImageViewModel]()
+            
+            let group = DispatchGroup.init()
+            
+            for imageInfo in imageInfos {
+                
+                group.enter()
+                
+                ImageServiceClient.shared.fetchImageSizeInfoForId(imageInfo.id) { (sizeInfoResult, error) in
+                    
+                    if let sizeInfos = sizeInfoResult {
+                    
+                        viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(ImageSize.LargeSquare),
+                                                         large: sizeInfos.urlStringForType(ImageSize.Large)))
+                    }
+                    
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
+                
+                self.applySnapshot(images: viewModels)
+            }
+        }
+    }
 
-    private func applySnapshot(images: [Imager]) {
+    private func applySnapshot(images: [ImageViewModel]) {
         
         snapshot = DataSourceSnapshot()
         
@@ -91,49 +120,20 @@ extension ViewController: UICollectionViewDelegate {
         
         guard let imageModel = dataSource.itemIdentifier(for: indexPath) else { return }
         
-        // Do something with model
+        // Do something after tapping cell
     }
-    
 }
 
 extension ViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        if let searchText = searchBar.text?.lowercased() {
+            
+            loadImages(forTag: searchText)
+        }
+        
         searchBar.resignFirstResponder()
-    }
-    
-}
-
-extension ViewController {
-    
-    func dummyImages() -> [Imager] {
-     
-        return [Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-                Imager(image: UIImage(named: "cat")!),
-                Imager(image: UIImage(named: "truck")!),
-                Imager(image: UIImage(named: "catView")!),
-        ]
     }
 }
 

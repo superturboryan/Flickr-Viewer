@@ -48,11 +48,10 @@ extension ImageServiceClient: ImageAPI {
     }
     
     func fetchImage(withUrl url: URL, completion: @escaping ImageClosure) {
-        
         do {
             try ImageNetworkRequestBuilder
                 .imageFromURL(url: url)
-                .download(usingImageNetworkService: imageService, completion: { (response) in
+                .download(usingNetworkService: imageService, completion: { (response) in
                     guard let image = response.value else { return }
                     completion(image,nil)
                 })

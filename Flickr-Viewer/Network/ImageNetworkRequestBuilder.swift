@@ -13,13 +13,11 @@ enum ImageNetworkRequestBuilder {
     case infoForTag(tag: String, page: Int)
     case infoForSize(id: String)
     case imageFromURL(url: URL)
-
 }
 
 extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
     
     var baseUrlString: String {
-        
         switch self {
         
         case .infoForTag(_, _),
@@ -29,11 +27,9 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
         case .imageFromURL(let url):
             return url.absoluteString
         }
-        
     }
     
     var path: String {
-
         switch self {
        
         case .infoForTag(_, _),
@@ -62,6 +58,7 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
                 "api_key" : "f9cc014fa76b098f9e82f1c288379ea1",
                 "tags" : tag,
                 "page" : page,
+                "per_page": 20,
                 "format" : "json",
                 "nojsoncallback" : 1,
             ]
@@ -85,20 +82,24 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
     func asURLRequest() throws -> URLRequest {
         
         var urlWithParamters = URLComponents(string: baseUrlString)
-        urlWithParamters?.path = path
-        urlWithParamters?.path = path
+        
+        if path != "" {
+            urlWithParamters?.path = path
+        }
+        
         urlWithParamters?.queryItems = parameters?.map({ (key, value) -> URLQueryItem in
             URLQueryItem(name: key, value: "\(value)")
         })
         
-        var url = try urlWithParamters?.url?.absoluteString.asURL()
-        
+        let url = try urlWithParamters?.url?.absoluteString.asURL()
         var request = try URLRequest(url: url!, method: method, headers: headers)
         request.httpBody = try body()
+        
         return request
     }
     
-    func download(usingImageNetworkService service: ImageNetworkService, completion: @escaping ImageDataResponse) throws -> Void {
+    func download(usingNetworkService service: ImageNetworkService, completion: @escaping ImageDataResponse) throws -> Void {
+        
         try service.download(asURLRequest(), completion: completion)
     }
 }

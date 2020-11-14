@@ -60,6 +60,14 @@ struct ImageSizeInfoResult: Codable {
     private enum CodingKeys: String, CodingKey {
         case imageSizeInfos = "size"
     }
+    
+    func urlStringForType(_ type: ImageSize) -> String {
+        
+        guard let urlString = imageSizeInfos.first(where: {$0.size == type})?.source
+        else { return "" }
+        
+        return urlString
+    }
 }
 
 struct ImageSizeInfoTopLevelJSON: Codable {
@@ -83,9 +91,9 @@ enum ImageSize: String, Codable, CodingKey {
     case XLarge3K = "X-Large 3K"
     case XLarge4K = "X-Large 4K"
     case XLarge5K = "X-Large 5K"
+   
     case Square
     case LargeSquare = "Large Square"
-    case Original
-    
     case Thumbnail
+    case Original
 }
