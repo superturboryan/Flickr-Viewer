@@ -10,6 +10,7 @@ import UIKit
 struct ImageViewModel: Hashable {
     var largeSquare: String
     var large: String
+    var title: String
 }
 
 enum Section {
@@ -43,8 +44,8 @@ class ViewController: UIViewController {
     
     private func setupCollectionView() {
         
-        collectionView.setGridLayout(withCellsPerRow: 2,
-                                     cellPadding: 10.0)
+        collectionView.useGridLayout(withCellsPerRow: 2,
+                                     cellPadding: 5.0)
         
         collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "ImageCollectionViewCell")
@@ -53,12 +54,13 @@ class ViewController: UIViewController {
                                 cellProvider: { (collectionView,
                                                  ip,
                                                  imageModel) -> UICollectionViewCell? in
-            
+            let url = URL(string: imageModel.largeSquare)!
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell",
                                                           for: ip) as! ImageCollectionViewCell
             
-            let url = URL(string: imageModel.largeSquare)!
+            cell.setLoading(true)
             ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
+                cell.setLoading(false)
                 cell.mainImageView.image = image
             }
                                     
@@ -68,10 +70,13 @@ class ViewController: UIViewController {
     
     func loadImages(forTag tag: String) {
         
-        ImageServiceClient.shared.fetchImageInfoForTag(tag, page: 1) { (result, error) in
+        ImageServiceClient.shared.fetchImageInfo(forTag: tag, page: 1) { (result, error) in
             
-            //            print(result?.imagesInfo)
-            guard let imageInfos = result?.imagesInfo else { return }
+            guard let imageInfos = result?.imagesInfo else {
+                
+                // Set error state?
+                return
+            }
             
             var viewModels = [ImageViewModel]()
             
@@ -81,12 +86,13 @@ class ViewController: UIViewController {
                 
                 group.enter()
                 
-                ImageServiceClient.shared.fetchImageSizeInfoForId(imageInfo.id) { (sizeInfoResult, error) in
+                ImageServiceClient.shared.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
                     
                     if let sizeInfos = sizeInfoResult {
                     
                         viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(ImageSize.LargeSquare),
-                                                         large: sizeInfos.urlStringForType(ImageSize.Large)))
+                                                         large: sizeInfos.urlStringForType(ImageSize.Large),
+                                                         title: imageInfo.title))
                     }
                     
                     group.leave()
@@ -118,8 +124,7 @@ extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let imageModel = dataSource.itemIdentifier(for: indexPath) else { return }
-        
+//        guard let imageModel = dataSource.itemIdentifier(for: indexPath) else { return }
         // Do something after tapping cell
     }
 }
@@ -134,51 +139,5 @@ extension ViewController: UISearchBarDelegate {
         }
         
         searchBar.resignFirstResponder()
-    }
-}
-
-extension UICollectionView {
-    
-    func setGridLayout(withCellsPerRow cellsPerRow: CGFloat,
-                       cellPadding padding: CGFloat) {
-          
-        let cellSize = NSCollectionLayoutDimension.absolute((self.frame.size.width - ((cellsPerRow + 1) * padding)) / cellsPerRow)
-        
-        self.collectionViewLayout = UICollectionViewCompositionalLayout(
-            sectionProvider: { (sectionNumber, _) -> NSCollectionLayoutSection? in
-                
-            // Return different NSCollectionLayoutSection based on sectionNumber
-                
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: cellSize,
-                                                                heightDimension: cellSize))
-            
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                             heightDimension: cellSize),
-                                                           subitems: [item])
-            group.interItemSpacing = .fixed(padding)
-            
-            let section = NSCollectionLayoutSection(group: group)
-            
-            section.interGroupSpacing = padding
-            section.contentInsets = NSDirectionalEdgeInsets(top: padding,
-                                                            leading: padding,
-                                                            bottom: padding,
-                                                            trailing: padding)
-            
-            return section
-        })
-    }
-    
-}
-
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 }

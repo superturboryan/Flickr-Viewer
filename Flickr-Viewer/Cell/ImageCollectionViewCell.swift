@@ -20,5 +20,11 @@ class ImageCollectionViewCell: UICollectionViewCell {
         
         self.activityIndicator.hidesWhenStopped = true
     }
+    
+    func setLoading(_ loading: Bool) {
+        loading ?
+            self.activityIndicator.startAnimating() :
+            self.activityIndicator.stopAnimating()
+    }
 
 }

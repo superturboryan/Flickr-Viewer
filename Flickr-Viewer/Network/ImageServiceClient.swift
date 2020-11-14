@@ -19,7 +19,7 @@ class ImageServiceClient {
 
 extension ImageServiceClient: ImageAPI {
     
-    func fetchImageInfoForTag(_ tag: String, page: Int, completion: @escaping ImageInfoClosure) {
+    func fetchImageInfo(forTag tag: String, page: Int, completion: @escaping ImageInfoClosure) {
         do {
             try ImageNetworkRequestBuilder
                 .infoForTag(tag: tag, page: page)
@@ -33,7 +33,7 @@ extension ImageServiceClient: ImageAPI {
         catch { completion(nil,error) }
     }
     
-    func fetchImageSizeInfoForId(_ imageId: String, completion: @escaping ImageSizeInfoClosure) {
+    func fetchImageSizeInfo(forId imageId: String, completion: @escaping ImageSizeInfoClosure) {
         do {
             try ImageNetworkRequestBuilder
                 .infoForSize(id: imageId)

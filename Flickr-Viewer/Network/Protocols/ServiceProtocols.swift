@@ -29,7 +29,7 @@ extension NetworkRequestBuilder {
     
     func asURLRequest() throws -> URLRequest {
         
-        var url = try baseUrlString.asURL()
+        let url = try baseUrlString.asURL()
         
         var request = try URLRequest(url: url, method: method, headers: headers)
         

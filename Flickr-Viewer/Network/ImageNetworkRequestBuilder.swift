@@ -52,6 +52,7 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
     var parameters: Parameters? {
         
         switch self {
+        
         case .infoForTag(let tag, let page):
             return [
                 "method" : "flickr.photos.search",
@@ -62,6 +63,7 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
                 "format" : "json",
                 "nojsoncallback" : 1,
             ]
+            
         case .infoForSize(let id):
             return [
                 "method" : "flickr.photos.getSizes",
@@ -70,6 +72,7 @@ extension ImageNetworkRequestBuilder: NetworkRequestBuilder {
                 "format" : "json",
                 "nojsoncallback" : 1,
             ]
+            
         case .imageFromURL(_):
             return [String:Any]()
         }
