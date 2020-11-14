@@ -20,13 +20,16 @@
 		94D13DCD255E2E3B00A9DAEB /* ImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DCC255E2E3B00A9DAEB /* ImageInfo.swift */; };
 		94D13DDD255E2FF400A9DAEB /* ImageAPIProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DDC255E2FF400A9DAEB /* ImageAPIProtocols.swift */; };
 		94D13DE6255E352900A9DAEB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */; };
-		94D13DEE255E358200A9DAEB /* ImageNetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DED255E358200A9DAEB /* ImageNetworkRequestBuilder.swift */; };
+		94D13DEE255E358200A9DAEB /* ImageRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */; };
 		94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */; };
 		94D13DF8255E3B1600A9DAEB /* ImageServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */; };
 		94D13DFD255E3D2400A9DAEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DFC255E3D2400A9DAEB /* NetworkError.swift */; };
 		94D13E11255F91FD00A9DAEB /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */; };
 		94D13E19255F922F00A9DAEB /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */; };
 		94D13E31255F975300A9DAEB /* ImageSizeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13E30255F975300A9DAEB /* ImageSizeInfo.swift */; };
+		94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57A8256097E900213CAC /* ImageInteractor.swift */; };
+		94DC57B425609F9800213CAC /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B325609F9800213CAC /* UIImageViewExtension.swift */; };
+		94DC57B92560A31B00213CAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B82560A31B00213CAC /* Constants.swift */; };
 		B9AC08DCEF365BCD05EB246B /* Pods_Flickr_ViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCBF18F267A3878A327E2CEF /* Pods_Flickr_ViewerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,13 +70,16 @@
 		94D13DCC255E2E3B00A9DAEB /* ImageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfo.swift; sourceTree = "<group>"; };
 		94D13DDC255E2FF400A9DAEB /* ImageAPIProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAPIProtocols.swift; sourceTree = "<group>"; };
 		94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
-		94D13DED255E358200A9DAEB /* ImageNetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkRequestBuilder.swift; sourceTree = "<group>"; };
+		94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestBuilder.swift; sourceTree = "<group>"; };
 		94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkService.swift; sourceTree = "<group>"; };
 		94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceClient.swift; sourceTree = "<group>"; };
 		94D13DFC255E3D2400A9DAEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
 		94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		94D13E30255F975300A9DAEB /* ImageSizeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSizeInfo.swift; sourceTree = "<group>"; };
+		94DC57A8256097E900213CAC /* ImageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractor.swift; sourceTree = "<group>"; };
+		94DC57B325609F9800213CAC /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		94DC57B82560A31B00213CAC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C1C167513F818C5A0711FBD3 /* Pods-Flickr-Viewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-Viewer.debug.xcconfig"; path = "Target Support Files/Pods-Flickr-Viewer/Pods-Flickr-Viewer.debug.xcconfig"; sourceTree = "<group>"; };
 		CC4DF77DE46497B671921C22 /* Pods-Flickr-Viewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-Viewer.release.xcconfig"; path = "Target Support Files/Pods-Flickr-Viewer/Pods-Flickr-Viewer.release.xcconfig"; sourceTree = "<group>"; };
 		CD21627BE66103C941353419 /* Pods-Flickr-ViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-ViewerTests.release.xcconfig"; path = "Target Support Files/Pods-Flickr-ViewerTests/Pods-Flickr-ViewerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 				94D13DB9255DED8100A9DAEB /* Cell */,
 				94D13E1F255F961800A9DAEB /* Config */,
 				94D13E0F255F91CC00A9DAEB /* Extension */,
+				94DC57A7256097C700213CAC /* Interactor */,
 				94D13DCB255E2E1B00A9DAEB /* Model */,
 				94D13DD4255E2F0500A9DAEB /* Network */,
 				94D13E1D255F95EA00A9DAEB /* Resources */,
@@ -182,7 +189,7 @@
 		94D13DD4255E2F0500A9DAEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				94D13DED255E358200A9DAEB /* ImageNetworkRequestBuilder.swift */,
+				94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */,
 				94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */,
 				94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */,
 				94D13DFC255E3D2400A9DAEB /* NetworkError.swift */,
@@ -205,6 +212,7 @@
 			children = (
 				94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */,
 				94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */,
+				94DC57B325609F9800213CAC /* UIImageViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -231,6 +239,7 @@
 				94D13D91255DEB7C00A9DAEB /* Info.plist */,
 				94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */,
 				94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */,
+				94DC57B82560A31B00213CAC /* Constants.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -242,6 +251,14 @@
 				94D13D89255DEB7A00A9DAEB /* Main.storyboard */,
 			);
 			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		94DC57A7256097C700213CAC /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				94DC57A8256097E900213CAC /* ImageInteractor.swift */,
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		A0E134CF9F7985FEADE281A7 /* Pods */ = {
@@ -454,7 +471,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				94D13E31255F975300A9DAEB /* ImageSizeInfo.swift in Sources */,
-				94D13DEE255E358200A9DAEB /* ImageNetworkRequestBuilder.swift in Sources */,
+				94DC57B92560A31B00213CAC /* Constants.swift in Sources */,
+				94D13DEE255E358200A9DAEB /* ImageRequestBuilder.swift in Sources */,
 				94D13D88255DEB7A00A9DAEB /* ImageSearchViewController.swift in Sources */,
 				94D13DCD255E2E3B00A9DAEB /* ImageInfo.swift in Sources */,
 				94D13DDD255E2FF400A9DAEB /* ImageAPIProtocols.swift in Sources */,
@@ -463,9 +481,11 @@
 				94D13DBC255DEDC800A9DAEB /* ImageCollectionViewCell.swift in Sources */,
 				94D13DF8255E3B1600A9DAEB /* ImageServiceClient.swift in Sources */,
 				94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */,
+				94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */,
 				94D13E19255F922F00A9DAEB /* UIViewControllerExtension.swift in Sources */,
 				94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */,
 				94D13DFD255E3D2400A9DAEB /* NetworkError.swift in Sources */,
+				94DC57B425609F9800213CAC /* UIImageViewExtension.swift in Sources */,
 				94D13DE6255E352900A9DAEB /* ServiceProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

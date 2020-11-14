@@ -21,7 +21,7 @@ extension ImageServiceClient: ImageAPI {
     
     func fetchImageInfo(forTag tag: String, page: Int, completion: @escaping ImageInfoClosure) {
         do {
-            try ImageNetworkRequestBuilder
+            try ImageRequestBuilder
                 .infoForTag(tag: tag, page: page)
                 .request(usingNetworkService: imageService)
                 .responseJSON(completionHandler: { (result) in
@@ -35,7 +35,7 @@ extension ImageServiceClient: ImageAPI {
     
     func fetchImageSizeInfo(forId imageId: String, completion: @escaping ImageSizeInfoClosure) {
         do {
-            try ImageNetworkRequestBuilder
+            try ImageRequestBuilder
                 .infoForSize(id: imageId)
                 .request(usingNetworkService: imageService)
                 .responseJSON(completionHandler: { (result) in
@@ -49,7 +49,7 @@ extension ImageServiceClient: ImageAPI {
     
     func fetchImage(withUrl url: URL, completion: @escaping ImageClosure) {
         do {
-            try ImageNetworkRequestBuilder
+            try ImageRequestBuilder
                 .imageFromURL(url: url)
                 .download(usingNetworkService: imageService, completion: { (response) in
                     guard let image = response.value else { return }

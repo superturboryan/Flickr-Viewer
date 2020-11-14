@@ -12,9 +12,9 @@ typealias ImageDataResponse = (DataResponse<Image,AFIError>) -> Void
 
 final class ImageNetworkService: NetworkService {
     
-    var sessionManager: Session = .default
-    
     static let shared: ImageNetworkService = ImageNetworkService()
+    
+    var sessionManager: Session = .default
     
     var imageDownloader: ImageDownloader = ImageDownloader()
     

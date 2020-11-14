@@ -10,6 +10,7 @@ import UIKit
 class ImageCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var mainImageView: UIImageView!
+    @IBOutlet weak var detailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -42,10 +43,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
         
         self.clipsToBounds = false // Allow label to be shown outside cell
         
-        mainImageView.layer.cornerRadius = 5.0
-        mainImageView.clipsToBounds = true
-        
         self.titleLabel.alpha = 0.0
+        self.detailImageView.alpha = 0.0
         activityIndicator.hidesWhenStopped = true
     }
 }

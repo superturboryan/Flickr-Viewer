@@ -59,7 +59,7 @@ extension ImageRequestBuilder: NetworkRequestBuilder {
                 "api_key" : Constants.Networking.flickrAPIKey,
                 "tags" : tag,
                 "page" : page,
-                "per_page": 20,
+                "per_page": Constants.Networking.imagesPerPage,
                 "format" : "json",
                 "nojsoncallback" : 1,
             ]

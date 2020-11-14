@@ -28,11 +28,13 @@ class ImageSearchViewController: UIViewController {
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
     
+    private var imageInteractor = ImageInteractor(serviceClient: ImageServiceClient.shared)
+    
     private var searchedTag = ""
     private var pageToLoad = 1
     private var showDetail = false
     
-    private let cellPadding:CGFloat = 5.0
+    private let cellPadding:CGFloat = 3.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,15 +52,13 @@ class ImageSearchViewController: UIViewController {
     
     private func setupCollectionView() {
         
-        collectionView.clipsToBounds = false
+        collectionView.delegate = self
         
         collectionView.useGridLayout(withCellsPerRow: 2,
                                      cellPadding: cellPadding)
         
         collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "ImageCollectionViewCell")
-        
-        collectionView.delegate = self
         
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView,
@@ -81,47 +81,22 @@ class ImageSearchViewController: UIViewController {
     
     func loadImages(forTag tag: String, andPage page: Int) {
         
-        ImageServiceClient.shared.fetchImageInfo(forTag: tag, page: page) { (result, error) in
+        imageInteractor.getImageViewModels(forTag: tag, andPage: page) { (viewModels, error) in
             
-            guard let imageInfos = result?.imagesInfo, error == nil else {
-                
-                // Set error state?
+            guard let images = viewModels, error == nil else {
+                // Set error state
                 return
             }
             
             self.pageToLoad += 1
             
-            var viewModels = [ImageViewModel]()
-            
-            let group = DispatchGroup.init()
-            
-            for imageInfo in imageInfos {
-                
-                group.enter()
-                
-                ImageServiceClient.shared.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
-                    
-                    if let sizeInfos = sizeInfoResult {
-                    
-                        viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(ImageSize.LargeSquare),
-                                                         large: sizeInfos.urlStringForType(ImageSize.Large),
-                                                         title: imageInfo.title))
-                    }
-                    
-                    group.leave()
-                }
+            if page == 1 { // If loading new search, don't append
+                self.applySnapshot(images: images)
             }
-            
-            group.notify(queue: .main) {
-                
-                if page == 1 {
-                    self.applySnapshot(images: viewModels)
-                }
-                else {
-                    var current = self.dataSource.snapshot()
-                    current.appendItems(viewModels)
-                    self.applySnapshot(images: current.itemIdentifiers)
-                }
+            else { // Get current snapshot and append!
+                var current = self.dataSource.snapshot()
+                current.appendItems(images)
+                self.applySnapshot(images: current.itemIdentifiers)
             }
         }
     }
@@ -171,13 +146,10 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         
         showDetail.toggle()
         
-        guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath) else { return }
+        searchBar.isUserInteractionEnabled = !showDetail
+        collectionView.isScrollEnabled = !showDetail
         
-        guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else {
-            // Some images don't have all sizes and we can't show the detail view
-            self.showDetail.toggle()
-            return
-        }
+        guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath) else { return }
         
         let selectedCell = collectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
         
@@ -185,25 +157,32 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         
         selectedCell.showTitleLabel = self.showDetail
         
-        searchBar.isUserInteractionEnabled = !showDetail
-        collectionView.isScrollEnabled = !showDetail
-        
         selectedCell.isLoading = true
+        
+        guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else {
+            // Some images don't have all sizes so we won't load a different detail image for now
+            return
+        }
         
         ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
             
             selectedCell.isLoading = false
             
-            if (error == nil) {
-                
-                selectedCell.mainImageView.image = image
+            guard let imageToDisplay = image, error == nil else { return }
+            
+            // Animate imageView in and out using alpha
+            // to avoid flash when larger image loads
+            selectedCell.mainImageView.fadeOutAndInToImage(imageToDisplay) {
+                // Completion
             }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if indexPath.row == dataSource.collectionView(collectionView, numberOfItemsInSection: 0) - 1 {
+        let aboutToDisplayLastCell = indexPath.row == dataSource.collectionView(collectionView, numberOfItemsInSection: 0) - 1
+        
+        if aboutToDisplayLastCell {
             
             self.loadImages(forTag: self.searchedTag, andPage: self.pageToLoad)
         }
