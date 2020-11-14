@@ -17,7 +17,7 @@ enum Section {
     case main
 }
 
-class ViewController: UIViewController {
+class ImageSearchViewController: UIViewController {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageViewModel>
     typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ImageViewModel>
@@ -58,9 +58,9 @@ class ViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell",
                                                           for: ip) as! ImageCollectionViewCell
             
-            cell.setLoading(true)
+            cell.isLoading = true
             ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
-                cell.setLoading(false)
+                cell.isLoading = false
                 cell.mainImageView.image = image
             }
                                     
@@ -120,7 +120,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension ImageSearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -129,7 +129,7 @@ extension ViewController: UICollectionViewDelegate {
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension ImageSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         

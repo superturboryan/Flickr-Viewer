@@ -1,43 +1,11 @@
 //
-//  Image.swift
+//  ImageSizeInfo.swift
 //  Flickr-Viewer
 //
-//  Created by Ryan David Forsyth on 2020-11-12.
+//  Created by Ryan David Forsyth on 2020-11-13.
 //
 
-import UIKit
-
-struct ImageInfo: Codable, Hashable {
-    
-    let id: String
-    let owner: String
-    let title: String
-}
-
-struct ImageInfoResult: Codable {
-    
-    let page: Int
-    let pages: Int
-    let perpage: Int
-    let total: String
-    let imagesInfo: [ImageInfo]
-    
-    // JSON keys that are identical to properties default to raw string from case
-    private enum CodingKeys: String, CodingKey {
-        case imagesInfo = "photo"
-        case total
-        case page
-        case pages
-        case perpage
-    }
-}
-
-struct ImageInfoTopLevelJSON: Codable {
-    
-    let photos: ImageInfoResult
-}
-
-// ******************************************************************************
+import Foundation
 
 struct ImageSizeInfo: Codable {
     
@@ -75,8 +43,10 @@ struct ImageSizeInfoTopLevelJSON: Codable {
     let sizes: ImageSizeInfoResult
 }
 
-// https://www.flickr.com/services/api/misc.urls.html
 enum ImageSize: String, Codable, CodingKey {
+    
+    // Values taken from:
+    // https://www.flickr.com/services/api/misc.urls.html
     
     case Small
     case Small320 = "Small 320"
@@ -91,9 +61,11 @@ enum ImageSize: String, Codable, CodingKey {
     case XLarge3K = "X-Large 3K"
     case XLarge4K = "X-Large 4K"
     case XLarge5K = "X-Large 5K"
-   
+    case XLarge6K = "X-Large 6K"
+    
     case Square
     case LargeSquare = "Large Square"
     case Thumbnail
     case Original
 }
+

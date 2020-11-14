@@ -7,7 +7,7 @@
 
 import UIKit
 
-public extension UICollectionView {
+extension UICollectionView {
     
     func useGridLayout(withCellsPerRow cellsPerRow: CGFloat,
                        cellPadding padding: CGFloat) {

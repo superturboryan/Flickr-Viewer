@@ -12,19 +12,20 @@ class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var mainImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    var isLoading = false {
+        didSet {
+            isLoading ?
+                activityIndicator.startAnimating() :
+                activityIndicator.stopAnimating()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.mainImageView.layer.cornerRadius = 5.0
-        self.mainImageView.clipsToBounds = true
+        mainImageView.layer.cornerRadius = 5.0
+        mainImageView.clipsToBounds = true
         
-        self.activityIndicator.hidesWhenStopped = true
+        activityIndicator.hidesWhenStopped = true
     }
-    
-    func setLoading(_ loading: Bool) {
-        loading ?
-            self.activityIndicator.startAnimating() :
-            self.activityIndicator.stopAnimating()
-    }
-
 }
