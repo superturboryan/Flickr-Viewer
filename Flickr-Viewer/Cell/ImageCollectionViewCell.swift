@@ -25,12 +25,15 @@ class ImageCollectionViewCell: UICollectionViewCell {
         didSet{
             if !showTitleLabel { self.titleLabel.alpha =  0.0 }
             
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.4,
+                           delay: 0.1,
+                           options: .curveEaseInOut) {
                 let raise = CGAffineTransform(translationX: 0, y: -40)
                 self.titleLabel.transform = self.showTitleLabel ? raise : .identity
                 if self.showTitleLabel { self.titleLabel.alpha = 1.0 }
+            } completion: { (finished) in
+                
             }
-            
         }
     }
     

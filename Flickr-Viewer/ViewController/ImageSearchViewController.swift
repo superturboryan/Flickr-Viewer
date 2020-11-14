@@ -28,7 +28,8 @@ class ImageSearchViewController: UIViewController {
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
     
-    private var currentPage = 1
+    private var searchedTag = ""
+    private var pageToLoad = 1
     private var showDetail = false
     
     private let cellPadding:CGFloat = 5.0
@@ -88,6 +89,8 @@ class ImageSearchViewController: UIViewController {
                 return
             }
             
+            self.pageToLoad += 1
+            
             var viewModels = [ImageViewModel]()
             
             let group = DispatchGroup.init()
@@ -111,7 +114,14 @@ class ImageSearchViewController: UIViewController {
             
             group.notify(queue: .main) {
                 
-                self.applySnapshot(images: viewModels)
+                if page == 1 {
+                    self.applySnapshot(images: viewModels)
+                }
+                else {
+                    var current = self.dataSource.snapshot()
+                    current.appendItems(viewModels)
+                    self.applySnapshot(images: current.itemIdentifiers)
+                }
             }
         }
     }
@@ -132,7 +142,9 @@ class ImageSearchViewController: UIViewController {
     // Used to hide/show cells when selecting cell
     private func toggleShowingCells(exceptFor ip: IndexPath) {
         
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.4,
+                       delay: 0,
+                       options: .curveEaseInOut) {
             
             self.collectionView.useGridLayout(withCellsPerRow: self.showDetail ? 1 : 2,
                                               cellPadding: 5.0)
@@ -147,6 +159,8 @@ class ImageSearchViewController: UIViewController {
                     imageCell.isUserInteractionEnabled = !self.showDetail
                     imageCell.mainImageView.alpha = self.showDetail ? 0.2 : 1.0;
                 }
+        } completion: { (finished) in
+            
         }
     }
 }
@@ -158,7 +172,13 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         showDetail.toggle()
         
         guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath) else { return }
-        guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else { return }
+        
+        guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else {
+            // Some images don't have all sizes and we can't show the detail view
+            self.showDetail.toggle()
+            return
+        }
+        
         let selectedCell = collectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
         
         toggleShowingCells(exceptFor: indexPath)
@@ -180,17 +200,26 @@ extension ImageSearchViewController: UICollectionViewDelegate {
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == dataSource.collectionView(collectionView, numberOfItemsInSection: 0) - 1 {
+            
+            self.loadImages(forTag: self.searchedTag, andPage: self.pageToLoad)
+        }
+    }
 }
 
 extension ImageSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        currentPage = 1 // Reset current page
+        pageToLoad = 1 // Reset current page
         
         if let searchText = searchBar.text?.lowercased() {
             
-            loadImages(forTag: searchText, andPage: currentPage)
+            self.searchedTag = searchText
+            loadImages(forTag: searchText, andPage: pageToLoad)
         }
         searchBar.resignFirstResponder()
     }
