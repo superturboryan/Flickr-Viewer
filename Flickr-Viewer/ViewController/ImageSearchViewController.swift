@@ -49,6 +49,8 @@ class ImageSearchViewController: UIViewController {
     
     private func setupCollectionView() {
         
+        collectionView.clipsToBounds = false
+        
         collectionView.useGridLayout(withCellsPerRow: 2,
                                      cellPadding: cellPadding)
         
@@ -65,6 +67,7 @@ class ImageSearchViewController: UIViewController {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell",
                                                           for: ip) as! ImageCollectionViewCell
             
+            cell.titleLabel.text = imageModel.title
             cell.isLoading = true
             ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
                 cell.isLoading = false
@@ -125,25 +128,19 @@ class ImageSearchViewController: UIViewController {
             // Completion
         }
     }
-}
-
-extension ImageSearchViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-//        guard let imageModel = dataSource.itemIdentifier(for: indexPath) else { return }
-        // Do something after tapping cell
-        showDetail.toggle()
-        
-        collectionView.isScrollEnabled = !showDetail
+    // Used to hide/show cells when selecting cell
+    private func toggleShowingCells(exceptFor ip: IndexPath) {
         
         UIView.animate(withDuration: 0.5) {
             
-            collectionView.useGridLayout(withCellsPerRow: self.showDetail ? 1 : 2,
-                                         cellPadding: 5.0)
+            self.collectionView.useGridLayout(withCellsPerRow: self.showDetail ? 1 : 2,
+                                              cellPadding: 5.0)
             
-            collectionView.visibleCells
-                .filter({ collectionView.indexPath(for: $0)?.row != indexPath.row })
+            self.searchBar.alpha = self.showDetail ? 0.2 : 1.0
+            
+            self.collectionView.visibleCells
+                .filter({ self.collectionView.indexPath(for: $0)?.row != ip.row })
                 .forEach { (cell) in
                     
                     let imageCell = cell as! ImageCollectionViewCell
@@ -151,17 +148,31 @@ extension ImageSearchViewController: UICollectionViewDelegate {
                     imageCell.mainImageView.alpha = self.showDetail ? 0.2 : 1.0;
                 }
         }
+    }
+}
+
+extension ImageSearchViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        showDetail.toggle()
+        
+        guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else { return }
         let selectedCell = collectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
-        guard let viewmodel = dataSource.itemIdentifier(for: indexPath) else { return }
-        guard let url = URL(string: showDetail ? viewmodel.large : viewmodel.largeSquare) else { return }
+        
+        toggleShowingCells(exceptFor: indexPath)
+        
+        selectedCell.showTitleLabel = self.showDetail
+        
+        searchBar.isUserInteractionEnabled = !showDetail
+        collectionView.isScrollEnabled = !showDetail
         
         selectedCell.isLoading = true
         
         ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
             
             selectedCell.isLoading = false
-            selectedCell.mainImageView.contentMode = self.showDetail ? .scaleAspectFill : .scaleAspectFit
             
             if (error == nil) {
                 
