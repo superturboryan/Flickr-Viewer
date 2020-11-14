@@ -17,16 +17,21 @@ enum Section {
     case main
 }
 
+typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageViewModel>
+typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ImageViewModel>
+
 class ImageSearchViewController: UIViewController {
-    
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageViewModel>
-    typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ImageViewModel>
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
+    
+    private var currentPage = 1
+    private var showDetail = false
+    
+    private let cellPadding:CGFloat = 5.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +50,12 @@ class ImageSearchViewController: UIViewController {
     private func setupCollectionView() {
         
         collectionView.useGridLayout(withCellsPerRow: 2,
-                                     cellPadding: 5.0)
+                                     cellPadding: cellPadding)
         
         collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "ImageCollectionViewCell")
+        
+        collectionView.delegate = self
         
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView,
@@ -68,11 +75,11 @@ class ImageSearchViewController: UIViewController {
         })
     }
     
-    func loadImages(forTag tag: String) {
+    func loadImages(forTag tag: String, andPage page: Int) {
         
-        ImageServiceClient.shared.fetchImageInfo(forTag: tag, page: 1) { (result, error) in
+        ImageServiceClient.shared.fetchImageInfo(forTag: tag, page: page) { (result, error) in
             
-            guard let imageInfos = result?.imagesInfo else {
+            guard let imageInfos = result?.imagesInfo, error == nil else {
                 
                 // Set error state?
                 return
@@ -126,6 +133,41 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         
 //        guard let imageModel = dataSource.itemIdentifier(for: indexPath) else { return }
         // Do something after tapping cell
+        showDetail.toggle()
+        
+        collectionView.isScrollEnabled = !showDetail
+        
+        UIView.animate(withDuration: 0.5) {
+            
+            collectionView.useGridLayout(withCellsPerRow: self.showDetail ? 1 : 2,
+                                         cellPadding: 5.0)
+            
+            collectionView.visibleCells
+                .filter({ collectionView.indexPath(for: $0)?.row != indexPath.row })
+                .forEach { (cell) in
+                    
+                    let imageCell = cell as! ImageCollectionViewCell
+                    imageCell.isUserInteractionEnabled = !self.showDetail
+                    imageCell.mainImageView.alpha = self.showDetail ? 0.2 : 1.0;
+                }
+        }
+        
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! ImageCollectionViewCell
+        guard let viewmodel = dataSource.itemIdentifier(for: indexPath) else { return }
+        guard let url = URL(string: showDetail ? viewmodel.large : viewmodel.largeSquare) else { return }
+        
+        selectedCell.isLoading = true
+        
+        ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
+            
+            selectedCell.isLoading = false
+            selectedCell.mainImageView.contentMode = self.showDetail ? .scaleAspectFill : .scaleAspectFit
+            
+            if (error == nil) {
+                
+                selectedCell.mainImageView.image = image
+            }
+        }
     }
 }
 
@@ -133,11 +175,12 @@ extension ImageSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        currentPage = 1 // Reset current page
+        
         if let searchText = searchBar.text?.lowercased() {
             
-            loadImages(forTag: searchText)
+            loadImages(forTag: searchText, andPage: currentPage)
         }
-        
         searchBar.resignFirstResponder()
     }
 }
