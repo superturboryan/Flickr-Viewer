@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search comma-delimited Flickr tags" translatesAutoresizingMaskIntoConstraints="NO" id="NFt-ZO-Ar2">
+                            <searchBar contentMode="redraw" placeholder="Search Flickr images by tag" translatesAutoresizingMaskIntoConstraints="NO" id="NFt-ZO-Ar2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -40,7 +40,7 @@
                             <constraint firstItem="dI8-U0-V27" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GhT-YX-y1b"/>
                             <constraint firstItem="NFt-ZO-Ar2" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="KpH-O4-KcU"/>
                             <constraint firstItem="NFt-ZO-Ar2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LPz-Tx-nXl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dI8-U0-V27" secondAttribute="bottom" id="UDW-pS-izF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dI8-U0-V27" secondAttribute="bottom" id="sO6-AE-ghs"/>
                             <constraint firstItem="NFt-ZO-Ar2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vkB-kI-Fl1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dI8-U0-V27" secondAttribute="trailing" id="yiq-Ji-dam"/>
                         </constraints>

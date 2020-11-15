@@ -10,7 +10,7 @@ import Foundation
 struct ImageInteractor {
     
     private var serviceClient: ImageAPI
-    
+
     init(client: ImageAPI) {
         serviceClient = client
     }
@@ -19,7 +19,7 @@ struct ImageInteractor {
         
         serviceClient.fetchImageInfo(forTag: tag, page: page) { (result, error) in
             
-            guard let imageInfos = result?.imagesInfo, error == nil else {
+            guard let imageInfos = result?.imageInfos, error == nil else {
                 
                 completion(nil, error)
                 return
@@ -33,7 +33,7 @@ struct ImageInteractor {
                 
                 group.enter()
                 
-                ImageServiceClient.shared.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
+                serviceClient.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
                     
                     if let sizeInfos = sizeInfoResult {
                         

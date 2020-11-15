@@ -10,14 +10,14 @@ import Alamofire
 typealias ImageInfoParseResult = (result:ImageInfoResult?, error:Error?)
 typealias ImageSizeParseResult = (result:ImageSizeInfoResult?, error:Error?)
 
-class ImageServiceClient {
+class ImageClient {
     
-    static let shared: ImageServiceClient = ImageServiceClient()
+    static let shared: ImageClient = ImageClient()
     
     private lazy var imageService = ImageNetworkService.shared
 }
 
-extension ImageServiceClient: ImageAPI {
+extension ImageClient: ImageAPI {
     
     func fetchImageInfo(forTag tag: String, page: Int, completion: @escaping ImageInfoClosure) {
         do {
@@ -60,7 +60,7 @@ extension ImageServiceClient: ImageAPI {
     }
 }
 
-extension ImageServiceClient {
+extension ImageClient {
     
     private func parseJSONDataResultForImageInfoList(result: AFDataResponse<Any>) -> ImageInfoParseResult {
         

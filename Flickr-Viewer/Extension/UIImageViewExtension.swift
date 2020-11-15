@@ -9,7 +9,7 @@ import UIKit
 
 extension UIImageView {
     
-    func fadeOutAndInToImage(_ image:UIImage, completion: ()->Void) {
+    func fadeOutAndInToImage(_ image:UIImage) {
         
         UIView.animate(withDuration: 0.4,
                        delay: 0,

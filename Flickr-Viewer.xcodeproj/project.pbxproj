@@ -22,7 +22,7 @@
 		94D13DE6255E352900A9DAEB /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */; };
 		94D13DEE255E358200A9DAEB /* ImageRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */; };
 		94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */; };
-		94D13DF8255E3B1600A9DAEB /* ImageServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */; };
+		94D13DF8255E3B1600A9DAEB /* ImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DF7255E3B1600A9DAEB /* ImageClient.swift */; };
 		94D13DFD255E3D2400A9DAEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DFC255E3D2400A9DAEB /* NetworkError.swift */; };
 		94D13E11255F91FD00A9DAEB /* UICollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */; };
 		94D13E19255F922F00A9DAEB /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */; };
@@ -73,7 +73,7 @@
 		94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocols.swift; sourceTree = "<group>"; };
 		94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestBuilder.swift; sourceTree = "<group>"; };
 		94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkService.swift; sourceTree = "<group>"; };
-		94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceClient.swift; sourceTree = "<group>"; };
+		94D13DF7255E3B1600A9DAEB /* ImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClient.swift; sourceTree = "<group>"; };
 		94D13DFC255E3D2400A9DAEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewExtension.swift; sourceTree = "<group>"; };
 		94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 			children = (
 				94D13DED255E358200A9DAEB /* ImageRequestBuilder.swift */,
 				94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */,
-				94D13DF7255E3B1600A9DAEB /* ImageServiceClient.swift */,
+				94D13DF7255E3B1600A9DAEB /* ImageClient.swift */,
 				94D13DFC255E3D2400A9DAEB /* NetworkError.swift */,
 				94D13DE4255E350900A9DAEB /* Protocols */,
 			);
@@ -482,7 +482,7 @@
 				94D13E11255F91FD00A9DAEB /* UICollectionViewExtension.swift in Sources */,
 				94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */,
 				94D13DBC255DEDC800A9DAEB /* ImageCollectionViewCell.swift in Sources */,
-				94D13DF8255E3B1600A9DAEB /* ImageServiceClient.swift in Sources */,
+				94D13DF8255E3B1600A9DAEB /* ImageClient.swift in Sources */,
 				94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */,
 				94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */,
 				94DC57C32560A91200213CAC /* ImageViewModel.swift in Sources */,

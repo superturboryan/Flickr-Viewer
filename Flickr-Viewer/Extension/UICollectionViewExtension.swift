@@ -9,8 +9,11 @@ import UIKit
 
 extension UICollectionView {
     
-    func useGridLayout(withCellsPerRow cellsPerRow: CGFloat,
-                       cellPadding padding: CGFloat) {
+    func useGridLayout(withCellsPerRow cellsPerRow: CGFloat) {
+        
+        self.layoutIfNeeded()
+        
+        let padding:CGFloat = 2.0
         
         let cellSize = NSCollectionLayoutDimension.absolute((self.frame.size.width - ((cellsPerRow + 1) * padding)) / cellsPerRow)
         

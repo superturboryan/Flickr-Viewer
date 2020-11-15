@@ -85,17 +85,17 @@ extension ImageRequestBuilder: NetworkRequestBuilder {
     
     func asURLRequest() throws -> URLRequest {
         
-        var urlWithParamters = URLComponents(string: baseUrlString)
+        var urlWithParameters = URLComponents(string: baseUrlString)
         
         if path != "" {
-            urlWithParamters?.path = path
+            urlWithParameters?.path = path
         }
         
-        urlWithParamters?.queryItems = parameters?.map({ (key, value) -> URLQueryItem in
+        urlWithParameters?.queryItems = parameters?.map({ (key, value) -> URLQueryItem in
             URLQueryItem(name: key, value: "\(value)")
         })
         
-        let url = try urlWithParamters?.url?.absoluteString.asURL()
+        let url = try urlWithParameters?.url?.absoluteString.asURL()
         var request = try URLRequest(url: url!, method: method, headers: headers)
         request.httpBody = try body()
         
