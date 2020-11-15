@@ -37,9 +37,8 @@ struct ImageInteractor {
                     
                     if let sizeInfos = sizeInfoResult {
                         
-                        viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(.LargeSquare),
-                                                         large: sizeInfos.urlStringForType(.Large),
-                                                         title: imageInfo.title == "" ? "No title" : imageInfo.title))
+                        viewModels.append(ImageViewModel(info: imageInfo,
+                                                         sizes: sizeInfos))
                     }
                     group.leave()
                 }

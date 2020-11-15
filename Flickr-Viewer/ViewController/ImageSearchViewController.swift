@@ -28,16 +28,18 @@ class ImageSearchViewController: UIViewController {
     private var pageToLoad = 1
     private var showDetailView = false
     
+    private var cellsPerRow: CGFloat = 2
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         
+        super.viewDidLoad()
         setupView()
         setupCollectionView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
+        super.viewDidAppear(animated)
         searchBar.becomeFirstResponder() // Focus searchBar
     }
     
@@ -51,26 +53,18 @@ class ImageSearchViewController: UIViewController {
     private func setupCollectionView() {
         
         collectionView.delegate = self
-        collectionView.useGridLayout(withCellsPerRow: 2)
+        collectionView.useGridLayout(withCellsPerRow: cellsPerRow)
         collectionView.register(UINib(nibName: ImageCollectionViewCell.id, bundle: nil),
                                 forCellWithReuseIdentifier: ImageCollectionViewCell.id)
         
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView,
                                                  ip,
-                                                 imageModel) -> UICollectionViewCell? in
+                                                 viewModel) -> UICollectionViewCell? in
             
-            let url = URL(string: imageModel.largeSquare)!
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.id,
                                                           for: ip) as! ImageCollectionViewCell
-            
-            cell.titleLabel.text = imageModel.title
-            cell.isLoading = true
-            
-            self.imageInteractor.getImage(withUrl: url) { (image, error) in
-                cell.isLoading = false
-                cell.mainImageView.image = image
-            }
+            self.configureCell(cell, withViewModel: viewModel)
                                     
             return cell
         })
@@ -107,13 +101,25 @@ class ImageSearchViewController: UIViewController {
             // Completion
         }
     }
+    
+    private func configureCell(_ cell:ImageCollectionViewCell, withViewModel vm: ImageViewModel) {
+        
+        let url = URL(string: vm.largeSquare)!
+        cell.titleLabel.text = vm.title
+        cell.isLoading = true
+        
+        self.imageInteractor.getImage(withUrl: url) { (image, error) in
+            cell.isLoading = false
+            cell.mainImageView.image = image
+        }
+    }
 }
 
 extension ImageSearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
                 
-        toggleShowingCells(exceptFor: indexPath)
+        toggleDetailView(forIndexPath: indexPath)
         
         guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath),
               let selectedCell = collectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell,
@@ -160,7 +166,7 @@ extension ImageSearchViewController: UISearchBarDelegate {
 
 extension ImageSearchViewController { // Animation helpers
     
-    private func toggleShowingCells(exceptFor ip: IndexPath) {
+    private func toggleDetailView(forIndexPath ip: IndexPath) {
         
         showDetailView.toggle()
         
@@ -175,17 +181,22 @@ extension ImageSearchViewController { // Animation helpers
             
             self.searchBar.alpha = self.showDetailView ? 0.2 : 1.0
             
-            self.collectionView.useGridLayout(withCellsPerRow: self.showDetailView ? 1 : 2)
+            self.collectionView.useGridLayout(withCellsPerRow: self.showDetailView ? 1 : self.cellsPerRow)
             
-            self.collectionView.visibleCells
-                .filter({ self.collectionView.indexPath(for: $0)?.row != ip.row })
-                .forEach { (cell) in
-                    
-                    guard let imageCell = cell as? ImageCollectionViewCell else { return }
-                    imageCell.isUserInteractionEnabled = !self.showDetailView
-                    imageCell.mainImageView.alpha = self.showDetailView ? 0.1 : 1.0;
-                }
+            self.fadeCells(exceptFor: ip)
             
         } completion: { (finished) in /* Completion */ }
+    }
+    
+    private func fadeCells(exceptFor ip: IndexPath) {
+        
+        self.collectionView.visibleCells
+            .filter({ self.collectionView.indexPath(for: $0)?.row != ip.row })
+            .forEach { (cell) in
+                
+                guard let imageCell = cell as? ImageCollectionViewCell else { return }
+                imageCell.isUserInteractionEnabled = !self.showDetailView
+                imageCell.mainImageView.alpha = self.showDetailView ? 0.1 : 1.0;
+            }
     }
 }
