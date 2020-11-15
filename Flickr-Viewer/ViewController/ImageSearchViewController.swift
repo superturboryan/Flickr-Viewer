@@ -7,12 +7,6 @@
 
 import UIKit
 
-struct ImageViewModel: Hashable {
-    var largeSquare: String
-    var large: String
-    var title: String
-}
-
 enum Section {
     case main
 }
@@ -28,13 +22,13 @@ class ImageSearchViewController: UIViewController {
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
     
-    private var imageInteractor = ImageInteractor(serviceClient: ImageServiceClient.shared)
+    private var imageInteractor = ImageInteractor(client: ImageServiceClient.shared)
     
     private var searchedTag = ""
     private var pageToLoad = 1
     private var showDetail = false
     
-    private let cellPadding:CGFloat = 3.0
+    private let cellPadding:CGFloat = 2.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +39,7 @@ class ImageSearchViewController: UIViewController {
     
     private func setupView() {
         
-        hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTapped()
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
     }
@@ -57,15 +51,16 @@ class ImageSearchViewController: UIViewController {
         collectionView.useGridLayout(withCellsPerRow: 2,
                                      cellPadding: cellPadding)
         
-        collectionView.register(UINib(nibName: "ImageCollectionViewCell", bundle: nil),
-                                forCellWithReuseIdentifier: "ImageCollectionViewCell")
+        collectionView.register(UINib(nibName: ImageCollectionViewCell.id, bundle: nil),
+                                forCellWithReuseIdentifier: ImageCollectionViewCell.id)
         
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView,
                                                  ip,
                                                  imageModel) -> UICollectionViewCell? in
+            
             let url = URL(string: imageModel.largeSquare)!
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionViewCell",
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.id,
                                                           for: ip) as! ImageCollectionViewCell
             
             cell.titleLabel.text = imageModel.title
@@ -79,7 +74,7 @@ class ImageSearchViewController: UIViewController {
         })
     }
     
-    func loadImages(forTag tag: String, andPage page: Int) {
+    private func loadImages(forTag tag: String, andPage page: Int) {
         
         imageInteractor.getImageViewModels(forTag: tag, andPage: page) { (viewModels, error) in
             
@@ -104,11 +99,8 @@ class ImageSearchViewController: UIViewController {
     private func applySnapshot(images: [ImageViewModel]) {
         
         snapshot = DataSourceSnapshot()
-        
         snapshot.appendSections([Section.main])
-        
         snapshot.appendItems(images)
-        
         dataSource.apply(snapshot, animatingDifferences: true) {
             // Completion
         }
@@ -117,8 +109,10 @@ class ImageSearchViewController: UIViewController {
     // Used to hide/show cells when selecting cell
     private func toggleShowingCells(exceptFor ip: IndexPath) {
         
-        UIView.animate(withDuration: 0.4,
+        UIView.animate(withDuration: showDetail ? 0.5 : 0.65,
                        delay: 0,
+                       usingSpringWithDamping: showDetail ? 0.9 : 0.75,
+                       initialSpringVelocity: showDetail ? 0.0 : 1.0,
                        options: .curveEaseInOut) {
             
             self.collectionView.useGridLayout(withCellsPerRow: self.showDetail ? 1 : 2,
@@ -134,6 +128,7 @@ class ImageSearchViewController: UIViewController {
                     imageCell.isUserInteractionEnabled = !self.showDetail
                     imageCell.mainImageView.alpha = self.showDetail ? 0.2 : 1.0;
                 }
+            
         } completion: { (finished) in
             
         }
@@ -146,6 +141,7 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         
         showDetail.toggle()
         
+        // Don't allow scrolling when showing detail
         searchBar.isUserInteractionEnabled = !showDetail
         collectionView.isScrollEnabled = !showDetail
         
@@ -157,14 +153,14 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         
         selectedCell.showTitleLabel = self.showDetail
         
-        selectedCell.isLoading = true
-        
         guard let url = URL(string: showDetail ? selectedViewModel.large : selectedViewModel.largeSquare) else {
             // Some images don't have all sizes so we won't load a different detail image for now
             return
         }
         
-        ImageServiceClient.shared.fetchImage(withUrl: url) { (image, error) in
+        selectedCell.isLoading = true
+        
+        imageInteractor.getImage(withUrl: url) { (image, error) in
             
             selectedCell.isLoading = false
             

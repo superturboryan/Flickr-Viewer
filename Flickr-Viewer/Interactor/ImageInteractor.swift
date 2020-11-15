@@ -9,7 +9,11 @@ import Foundation
 
 struct ImageInteractor {
     
-    var serviceClient: ImageAPI
+    private var serviceClient: ImageAPI
+    
+    init(client: ImageAPI) {
+        serviceClient = client
+    }
     
     func getImageViewModels(forTag tag:String, andPage page:Int, completion: @escaping ([ImageViewModel]?, Error?) -> Void) {
         
@@ -33,11 +37,10 @@ struct ImageInteractor {
                     
                     if let sizeInfos = sizeInfoResult {
                         
-                        viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(ImageSize.LargeSquare),
-                                                         large: sizeInfos.urlStringForType(ImageSize.Large),
-                                                         title: imageInfo.title))
+                        viewModels.append(ImageViewModel(largeSquare: sizeInfos.urlStringForType(.LargeSquare),
+                                                         large: sizeInfos.urlStringForType(.Large),
+                                                         title: imageInfo.title == "" ? "No title" : imageInfo.title))
                     }
-                    
                     group.leave()
                 }
             }
@@ -45,9 +48,12 @@ struct ImageInteractor {
             group.notify(queue: .main) {
                 
                 completion(viewModels,nil)
-                
             }
         }
+    }
+    
+    func getImage(withUrl url: URL, completion: @escaping ImageClosure) {
         
+        serviceClient.fetchImage(withUrl: url, completion: completion)
     }
 }

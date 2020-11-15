@@ -30,6 +30,7 @@
 		94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57A8256097E900213CAC /* ImageInteractor.swift */; };
 		94DC57B425609F9800213CAC /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B325609F9800213CAC /* UIImageViewExtension.swift */; };
 		94DC57B92560A31B00213CAC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B82560A31B00213CAC /* Constants.swift */; };
+		94DC57C32560A91200213CAC /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57C22560A91200213CAC /* ImageViewModel.swift */; };
 		B9AC08DCEF365BCD05EB246B /* Pods_Flickr_ViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCBF18F267A3878A327E2CEF /* Pods_Flickr_ViewerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		94DC57A8256097E900213CAC /* ImageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractor.swift; sourceTree = "<group>"; };
 		94DC57B325609F9800213CAC /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		94DC57B82560A31B00213CAC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		94DC57C22560A91200213CAC /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		C1C167513F818C5A0711FBD3 /* Pods-Flickr-Viewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-Viewer.debug.xcconfig"; path = "Target Support Files/Pods-Flickr-Viewer/Pods-Flickr-Viewer.debug.xcconfig"; sourceTree = "<group>"; };
 		CC4DF77DE46497B671921C22 /* Pods-Flickr-Viewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-Viewer.release.xcconfig"; path = "Target Support Files/Pods-Flickr-Viewer/Pods-Flickr-Viewer.release.xcconfig"; sourceTree = "<group>"; };
 		CD21627BE66103C941353419 /* Pods-Flickr-ViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-ViewerTests.release.xcconfig"; path = "Target Support Files/Pods-Flickr-ViewerTests/Pods-Flickr-ViewerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				94D13DCC255E2E3B00A9DAEB /* ImageInfo.swift */,
 				94D13E30255F975300A9DAEB /* ImageSizeInfo.swift */,
+				94DC57C22560A91200213CAC /* ImageViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				94D13DF8255E3B1600A9DAEB /* ImageServiceClient.swift in Sources */,
 				94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */,
 				94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */,
+				94DC57C32560A91200213CAC /* ImageViewModel.swift in Sources */,
 				94D13E19255F922F00A9DAEB /* UIViewControllerExtension.swift in Sources */,
 				94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */,
 				94D13DFD255E3D2400A9DAEB /* NetworkError.swift in Sources */,

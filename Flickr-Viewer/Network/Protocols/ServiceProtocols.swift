@@ -39,7 +39,6 @@ extension NetworkRequestBuilder {
         return request
     }
     
-    // Inject network dependency
     func request(usingNetworkService service: NetworkService) throws -> DataRequest {
         return try service.request(asURLRequest())
     }

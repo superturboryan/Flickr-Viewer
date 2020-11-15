@@ -34,7 +34,6 @@ extension UICollectionView {
                                                                 leading: padding,
                                                                 bottom: padding,
                                                                 trailing: padding)
-                
                 return section
             })
     }

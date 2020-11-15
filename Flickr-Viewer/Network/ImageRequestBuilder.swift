@@ -30,6 +30,7 @@ extension ImageRequestBuilder: NetworkRequestBuilder {
     }
     
     var path: String {
+        
         switch self {
        
         case .infoForTag(_, _),
