@@ -14,9 +14,8 @@ class ImageInteractorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // TODO: Implement mock ImageClient for testing!
-        // Using the real API is too slow...
-        imageInteractor = ImageInteractor(client: ImageClient.shared)
+
+        imageInteractor = ImageInteractor(client: MockImageClient.shared)
     }
     
     override func tearDown() {
@@ -26,9 +25,9 @@ class ImageInteractorTests: XCTestCase {
     
     func test_get_first_page() {
         
-        XCTAssertEqual(imageInteractor.pageToLoad, 1)
+        XCTAssertEqual(imageInteractor.pageToLoad, 1, "Page to load should be 1 after initialization")
         
-        let expectation = self.expectation(description: "Loading results")
+        let expectation = self.expectation(description: "Loading first page of results")
         
         imageInteractor.getFirstPageOfResults(forTag: "Tag1") { (viewModels, error) in
             expectation.fulfill()
@@ -36,8 +35,8 @@ class ImageInteractorTests: XCTestCase {
         
         waitForExpectations(timeout: 5, handler: nil)
         
-        XCTAssertEqual(imageInteractor.searchedTag, "Tag1")
-        XCTAssertEqual(imageInteractor.pageToLoad, 2)
+        XCTAssertEqual(imageInteractor.searchedTag, "Tag1", "Interactor should remember the tag that was searched")
+        XCTAssertEqual(imageInteractor.pageToLoad, 2, "Page to load should have incremented to 2")
     }
     
     func test_get_next_page() {
@@ -58,13 +57,14 @@ class ImageInteractorTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
         
         XCTAssertEqual(imageInteractor.searchedTag, "Tag1")
-        XCTAssertEqual(imageInteractor.pageToLoad, 3)
+        XCTAssertEqual(imageInteractor.pageToLoad, 3,
+                       "Page to load should have incremented to 3 after initial fetch and following page")
     }
     
     func test_searching_different_tags() {
         
-        let expectation = self.expectation(description: "Loading first results")
-        let expectation2 = self.expectation(description: "Loading next results")
+        let expectation = self.expectation(description: "Loading results")
+        let expectation2 = self.expectation(description: "Loading different results")
         
         imageInteractor.getFirstPageOfResults(forTag: "Tag1") { (viewModels, error) in
             
@@ -84,10 +84,13 @@ class ImageInteractorTests: XCTestCase {
     
     func test_get_next_page_without_fetching_first_page() {
         
-        let expectation = self.expectation(description: "Loading results")
+        let expectation = self.expectation(description: "Loading next page without first")
         var vm: [ImageViewModel]?
         
         imageInteractor.getNextPageOfResults { (viewModels, error) in
+            
+            XCTAssertEqual(error, NetworkError.mustFetchFirstPageFirst)
+            
             vm = viewModels
             expectation.fulfill()
         }
@@ -95,16 +98,19 @@ class ImageInteractorTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
         
         XCTAssertNil(vm, "Should not have returned any view models")
-        XCTAssertEqual(imageInteractor.searchedTag, "")
+        XCTAssertEqual(imageInteractor.searchedTag, "", "No tag should have been searched")
         XCTAssertEqual(imageInteractor.pageToLoad, 1, "Should not have incremented pageToLoad")
     }
     
     func test_searching_empty_tag() {
         
-        let expectation = self.expectation(description: "Loading results")
+        let expectation = self.expectation(description: "Loading results for empty tag")
         var vm: [ImageViewModel]?
         
         imageInteractor.getFirstPageOfResults(forTag: "") { (viewModels, error) in
+            
+            XCTAssertEqual(error, NetworkError.invalidTag)
+            
             vm = viewModels
             expectation.fulfill()
         }
@@ -114,6 +120,4 @@ class ImageInteractorTests: XCTestCase {
         XCTAssertNil(vm, "Should not have returned any view models")
         XCTAssertEqual(imageInteractor.pageToLoad, 1, "Should not have incremented pageToLoad")
     }
-    
-    
 }

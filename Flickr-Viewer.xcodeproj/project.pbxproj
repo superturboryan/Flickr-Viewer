@@ -22,6 +22,8 @@
 		94470A73256226960037D915 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */; };
 		94470A76256226A00037D915 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B82560A31B00213CAC /* Constants.swift */; };
 		94470A7A256231C80037D915 /* ImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94470A79256231C80037D915 /* ImageViewModelTests.swift */; };
+		9489E09C25633AFE00B04CC8 /* MockImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489E09B25633AFE00B04CC8 /* MockImageClient.swift */; };
+		9489E09D25633AFE00B04CC8 /* MockImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489E09B25633AFE00B04CC8 /* MockImageClient.swift */; };
 		94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */; };
 		94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */; };
 		94D13D88255DEB7A00A9DAEB /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */; };
@@ -63,6 +65,7 @@
 		94470A2E2562063B0037D915 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		94470A42256223830037D915 /* ImageInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractorTests.swift; sourceTree = "<group>"; };
 		94470A79256231C80037D915 /* ImageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelTests.swift; sourceTree = "<group>"; };
+		9489E09B25633AFE00B04CC8 /* MockImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageClient.swift; sourceTree = "<group>"; };
 		94D13D80255DEB7A00A9DAEB /* Flickr-Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr-Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +125,14 @@
 				FCBF18F267A3878A327E2CEF /* Pods_Flickr_ViewerTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9489E09A25633ADF00B04CC8 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				9489E09B25633AFE00B04CC8 /* MockImageClient.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		94D13D77255DEB7A00A9DAEB = {
@@ -196,6 +207,7 @@
 				94D13DF2255E397800A9DAEB /* ImageNetworkService.swift */,
 				94D13DF7255E3B1600A9DAEB /* ImageClient.swift */,
 				94D13DFC255E3D2400A9DAEB /* NetworkError.swift */,
+				9489E09A25633ADF00B04CC8 /* Mock */,
 				94D13DE4255E350900A9DAEB /* Protocols */,
 			);
 			path = Network;
@@ -444,6 +456,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9489E09C25633AFE00B04CC8 /* MockImageClient.swift in Sources */,
 				94D13E31255F975300A9DAEB /* ImageSizeInfo.swift in Sources */,
 				94DC57B92560A31B00213CAC /* Constants.swift in Sources */,
 				94D13DEE255E358200A9DAEB /* ImageRequestBuilder.swift in Sources */,
@@ -476,6 +489,7 @@
 				94470A5C256225E00037D915 /* ImageViewModel.swift in Sources */,
 				94470A50256225270037D915 /* ImageAPIProtocols.swift in Sources */,
 				94470A5F256226770037D915 /* ImageInfo.swift in Sources */,
+				9489E09D25633AFE00B04CC8 /* MockImageClient.swift in Sources */,
 				94470A53256225350037D915 /* ImageClient.swift in Sources */,
 				94470A682562268A0037D915 /* ImageRequestBuilder.swift in Sources */,
 				94470A73256226960037D915 /* ServiceProtocols.swift in Sources */,

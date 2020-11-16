@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias ViewModelClosure = ([ImageViewModel]?, Error?) -> Void
+typealias ViewModelClosure = ([ImageViewModel]?, NetworkError?) -> Void
 
 class ImageInteractor {
     
@@ -22,6 +22,10 @@ class ImageInteractor {
     
     func getFirstPageOfResults(forTag tag: String, completion: @escaping ViewModelClosure) {
         
+        if tag == "" {
+            completion(nil, NetworkError.invalidTag)
+        }
+        
         noMoreImagesForTag = false
         pageToLoad = 1 // Reset page
         searchedTag = tag // Reset searched tag
@@ -31,6 +35,11 @@ class ImageInteractor {
     }
     
     func getNextPageOfResults(completion: @escaping ViewModelClosure) {
+    
+        if pageToLoad == 1 {
+            completion(nil, NetworkError.mustFetchFirstPageFirst)
+            return
+        }
         
         getImageViewModels(forTag: searchedTag,
                            andPage: pageToLoad,
@@ -60,7 +69,7 @@ private extension ImageInteractor {
             
             guard let imageInfos = result?.imageInfos, error == nil else {
                 
-                completion(nil, error)
+                completion(nil, NetworkError.noData)
                 return
             }
             

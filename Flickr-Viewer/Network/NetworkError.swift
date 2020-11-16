@@ -15,6 +15,8 @@ enum NetworkError: Error {
     case emptyImageId
     case invalidJSON
     case noMoreImagesForTag
+    case mustFetchFirstPageFirst
+    case invalidTag
     
     var errorDescription: String? {
         switch self {
@@ -24,6 +26,8 @@ enum NetworkError: Error {
         case .emptyImageId: return "Empty image id passed as parameter!"
         case .invalidJSON: return "Received invalid JSON"
         case .noMoreImagesForTag: return "No more images to load!"
+        case .mustFetchFirstPageFirst: return "You need to get first page of results before next page"
+        case .invalidTag: return "Can't search for empty tag!"
         }
     }
 }

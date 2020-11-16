@@ -32,7 +32,7 @@ class ImageViewModelTests: XCTestCase {
     func test_empty_title() {
         // Mock data below is initialized with empty string title,
         // it should be converted to a default value
-        XCTAssertEqual(imageViewModel.title, Constants.ImageGridUI.cellDefaultTitle)
+        XCTAssertEqual(imageViewModel.title, Constants.ImageGridUI.imageDefaultTitle)
     }
 }
 

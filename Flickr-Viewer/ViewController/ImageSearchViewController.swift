@@ -24,12 +24,12 @@ class ImageSearchViewController: UIViewController {
     
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
+
+    private var showDetailView = false
     
     // Inject client conforming to API protocol here to allow testing with mock client/data
     private var imageInteractor = ImageInteractor(client: ImageClient.shared)
 
-    private var showDetailView = false
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -72,32 +72,30 @@ class ImageSearchViewController: UIViewController {
         })
     }
     
-    private func applySnapshot(images: [ImageViewModel]) {
-        
-        DispatchQueue.main.async {
-            self.snapshot = DataSourceSnapshot()
-            self.snapshot.appendSections([Section.main])
-            self.snapshot.appendItems(images)
-            self.dataSource.apply(self.snapshot, animatingDifferences: true) {
-                // Completion
-            }
-        }
-    }
-    
     private func configureCell(_ cell:ImageCollectionViewCell, withViewModel vm: ImageViewModel) {
         
         guard let url = URL(string: vm.largeSquare) else {
-            // Set error state for cell?
+            // Invalid URL - Set error state for cell?
             return
         }
-        
         cell.delegate = self
         cell.titleLabel.text = vm.title
         
         cell.isLoading = true
         self.imageInteractor.getImage(withUrl: url) { (image, error) in
             cell.isLoading = false
+            guard error == nil else { return }
             cell.mainImageView.image = image
+        }
+    }
+    
+    private func applySnapshot(images: [ImageViewModel]) {
+        
+        DispatchQueue.main.async {
+            self.snapshot = DataSourceSnapshot()
+            self.snapshot.appendSections([Section.main])
+            self.snapshot.appendItems(images)
+            self.dataSource.apply(self.snapshot, animatingDifferences: true) { /* Completion */ }
         }
     }
 }
@@ -209,7 +207,7 @@ extension ImageSearchViewController { // Animation helpers
             animation ?
                 self.activityIndicator.startAnimating() :
                 self.activityIndicator.stopAnimating()
-        } completion: { (finished) in }
+        } completion: { (finished) in /* Completion */ }
     }
     
     private func toggleDetailView(forIndexPath ip: IndexPath) {
@@ -218,10 +216,12 @@ extension ImageSearchViewController { // Animation helpers
         
         searchBar.isUserInteractionEnabled = !showDetailView
         collectionView.isScrollEnabled = !showDetailView
+        // Allow first cell title to be shown outside collectionView
+        collectionView.clipsToBounds = !showDetailView
         
         UIView.animate(withDuration: showDetailView ? 0.4 : 0.5,
                        delay: 0,
-                       usingSpringWithDamping: showDetailView ? 0.9 : 0.8,
+                       usingSpringWithDamping: showDetailView ? 0.9 : 0.85,
                        initialSpringVelocity: showDetailView ? 0.0 : 1.0,
                        options: .curveEaseInOut) {
             
