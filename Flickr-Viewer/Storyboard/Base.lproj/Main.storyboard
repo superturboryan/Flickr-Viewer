@@ -20,6 +20,10 @@
                             <searchBar contentMode="redraw" placeholder="Search Flickr images by tag" translatesAutoresizingMaskIntoConstraints="NO" id="NFt-ZO-Ar2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dI8-U0-V27">
                                 <rect key="frame" x="0.0" y="56" width="375" height="611"/>

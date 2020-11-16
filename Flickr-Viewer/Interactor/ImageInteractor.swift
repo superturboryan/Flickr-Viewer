@@ -12,8 +12,9 @@ typealias ViewModelClosure = ([ImageViewModel]?, Error?) -> Void
 class ImageInteractor {
     
     private var serviceClient: ImageAPI
-    private var pageToLoad = 1
-    private var searchedTag = ""
+    private(set) var pageToLoad = 1
+    private(set) var searchedTag = ""
+    private(set) var noMoreImagesForTag = false
 
     init(client: ImageAPI) {
         serviceClient = client
@@ -21,6 +22,7 @@ class ImageInteractor {
     
     func getFirstPageOfResults(forTag tag: String, completion: @escaping ViewModelClosure) {
         
+        noMoreImagesForTag = false
         pageToLoad = 1 // Reset page
         searchedTag = tag
         getImageViewModels(forTag: searchedTag,
@@ -30,7 +32,6 @@ class ImageInteractor {
     
     func getNextPageOfResults(completion: @escaping ViewModelClosure) {
         
-        pageToLoad += 1
         getImageViewModels(forTag: searchedTag,
                            andPage: pageToLoad,
                            completion: completion)
@@ -49,6 +50,11 @@ private extension ImageInteractor {
                                     andPage page:Int,
                                     completion: @escaping ViewModelClosure) {
         
+        if noMoreImagesForTag {
+            completion(nil, NetworkError.noMoreImagesForTag)
+            return
+        }
+        
         serviceClient.fetchImageInfo(forTag: tag,
                                      page: page) { (result, error) in
             
@@ -60,6 +66,8 @@ private extension ImageInteractor {
             
             var viewModels = [ImageViewModel]()
             
+            // Use DispatchGroup to perform requests for size info of all
+            // images for page concurrently and return once all are complete
             let group = DispatchGroup.init()
             
             for imageInfo in imageInfos {
@@ -68,7 +76,7 @@ private extension ImageInteractor {
                 
                 self.serviceClient.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
                     
-                    if let sizeInfos = sizeInfoResult {
+                    if let sizeInfos = sizeInfoResult, error == nil {
                         
                         // Combine image info with size info for displaying in view
                         viewModels.append(ImageViewModel(info: imageInfo,
@@ -79,6 +87,12 @@ private extension ImageInteractor {
             }
             
             group.notify(queue: .main) {
+                
+                // If we don't receive any images for the tag,
+                // we shouldn't perform any more searches for it
+                // nor should we increment the pageToLoad
+                self.noMoreImagesForTag = viewModels.count == 0
+                self.pageToLoad += (viewModels.count == 0 ? 0 : 1)
                 
                 completion(viewModels,nil)
             }

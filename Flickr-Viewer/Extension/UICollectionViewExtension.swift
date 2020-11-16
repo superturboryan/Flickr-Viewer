@@ -13,9 +13,9 @@ extension UICollectionView {
         
         self.layoutIfNeeded()
         
-        let padding:CGFloat = 2.0
+        let margin = Constants.ImageGridUI.cellMargin
         
-        let cellSize = NSCollectionLayoutDimension.absolute((self.frame.size.width - ((cellsPerRow + 1) * padding)) / cellsPerRow)
+        let cellSize = NSCollectionLayoutDimension.absolute((self.frame.size.width - ((cellsPerRow + 1) * margin)) / cellsPerRow)
         
         self.collectionViewLayout = UICollectionViewCompositionalLayout(
             sectionProvider: { (sectionNumber, _) -> NSCollectionLayoutSection? in
@@ -28,15 +28,15 @@ extension UICollectionView {
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                                                                  heightDimension: cellSize),
                                                                subitems: [item])
-                group.interItemSpacing = .fixed(padding)
+                group.interItemSpacing = .fixed(margin)
                 
                 let section = NSCollectionLayoutSection(group: group)
                 
-                section.interGroupSpacing = padding
-                section.contentInsets = NSDirectionalEdgeInsets(top: padding,
-                                                                leading: padding,
-                                                                bottom: padding,
-                                                                trailing: padding)
+                section.interGroupSpacing = margin
+                section.contentInsets = NSDirectionalEdgeInsets(top: margin,
+                                                                leading: margin,
+                                                                bottom: margin,
+                                                                trailing: margin)
                 return section
             })
     }

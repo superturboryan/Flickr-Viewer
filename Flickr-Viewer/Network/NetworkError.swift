@@ -14,6 +14,7 @@ enum NetworkError: Error {
     case fileNotFound
     case emptyImageId
     case invalidJSON
+    case noMoreImagesForTag
     
     var errorDescription: String? {
         switch self {
@@ -22,6 +23,7 @@ enum NetworkError: Error {
         case .fileNotFound: return "File not found in bundle!"
         case .emptyImageId: return "Empty image id passed as parameter!"
         case .invalidJSON: return "Received invalid JSON"
+        case .noMoreImagesForTag: return "No more images to load!"
         }
     }
 }

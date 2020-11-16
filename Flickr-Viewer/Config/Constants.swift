@@ -5,9 +5,14 @@
 //  Created by Ryan David Forsyth on 2020-11-14.
 //
 
-import Foundation
+import UIKit
 
 struct Constants {
+    
+    struct ImageGridUI {
+        static let cellsPerRow:CGFloat = 2.0
+        static let cellMargin:CGFloat = 2.0
+    }
     
     struct Networking {
         

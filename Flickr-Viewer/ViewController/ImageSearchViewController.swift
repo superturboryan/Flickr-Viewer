@@ -14,18 +14,19 @@ enum Section {
 typealias DataSource = UICollectionViewDiffableDataSource<Section, ImageViewModel>
 typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, ImageViewModel>
 
+
 class ImageSearchViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
 
-    private var imageInteractor = ImageInteractor(client: ImageClient.shared)
-    
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
+    
+    // Inject client conforming to API protocol here to allow testing with mock client/data
+    private var imageInteractor = ImageInteractor(client: ImageClient.shared)
 
     private var showDetailView = false
-    private var cellsPerRow: CGFloat = 2
     
     override func viewDidLoad() {
         
@@ -50,7 +51,7 @@ class ImageSearchViewController: UIViewController {
     private func setupCollectionView() {
         
         collectionView.delegate = self
-        collectionView.useGridLayout(withCellsPerRow: cellsPerRow)
+        collectionView.useGridLayout(withCellsPerRow: Constants.ImageGridUI.cellsPerRow)
         collectionView.register(UINib(nibName: ImageCollectionViewCell.id, bundle: nil),
                                 forCellWithReuseIdentifier: ImageCollectionViewCell.id)
         
@@ -67,39 +68,15 @@ class ImageSearchViewController: UIViewController {
         })
     }
     
-    private func loadFirstPageOfImages(forTag tag: String) {
-        
-        imageInteractor.getFirstPageOfResults(forTag: tag) { (viewModels, error) in
-            guard let images = viewModels, error == nil else {
-                // Set error state
-                return
-            }
-            // Loading new search, don't append
-            self.applySnapshot(images: images)
-        }
-    }
-    
-    private func loadNextPageOfImages() {
-        
-        imageInteractor.getNextPageOfResults { (viewModels, error) in
-            guard let images = viewModels, error == nil else {
-                // Set error state
-                return
-            }
-            // Get current results and append new ones
-            var current = self.dataSource.snapshot()
-            current.appendItems(images)
-            self.applySnapshot(images: current.itemIdentifiers)
-        }
-    }
-
     private func applySnapshot(images: [ImageViewModel]) {
         
-        snapshot = DataSourceSnapshot()
-        snapshot.appendSections([Section.main])
-        snapshot.appendItems(images)
-        dataSource.apply(snapshot, animatingDifferences: true) {
-            // Completion
+        DispatchQueue.main.async {
+            self.snapshot = DataSourceSnapshot()
+            self.snapshot.appendSections([Section.main])
+            self.snapshot.appendItems(images)
+            self.dataSource.apply(self.snapshot, animatingDifferences: true) {
+                // Completion
+            }
         }
     }
     
@@ -121,6 +98,7 @@ class ImageSearchViewController: UIViewController {
     }
 }
 
+
 extension ImageSearchViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -136,15 +114,15 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         selectedCell.showShareButton = showDetailView
         
         guard let url = URL(string: showDetailView ? selectedViewModel.large : selectedViewModel.largeSquare) else { return }
-        selectedCell.isLoading = true
         
+        selectedCell.isLoading = true
         imageInteractor.getImage(withUrl: url) { (image, error) in
             
             selectedCell.isLoading = false
             
             guard let imageToDisplay = image, error == nil else { return }
             
-            // Animate imageView in and out using alpha to avoid flash when larger image loads
+            // Animate imageView in and out using alpha to avoid flash when new image loads
             selectedCell.mainImageView.fadeOutAndInToImage(imageToDisplay)
         }
     }
@@ -154,10 +132,11 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         let aboutToDisplayLastCell = indexPath.row == dataSource.collectionView(collectionView, numberOfItemsInSection: 0) - 1
         
         if aboutToDisplayLastCell {
-            self.loadNextPageOfImages()
+            loadNextPageOfImages()
         }
     }
 }
+
 
 extension ImageSearchViewController: UISearchBarDelegate {
     
@@ -171,6 +150,7 @@ extension ImageSearchViewController: UISearchBarDelegate {
     }
 }
 
+
 extension ImageSearchViewController: ImageCollectionViewCellDelegate {
     
     func imageCellDidTapShareButton(WithSelectedImage image: UIImage) {
@@ -179,6 +159,37 @@ extension ImageSearchViewController: ImageCollectionViewCellDelegate {
         present(ac, animated: true)
     }
 }
+
+
+private extension ImageSearchViewController { // Loading images helpers
+    
+    func loadFirstPageOfImages(forTag tag: String) {
+        
+        imageInteractor.getFirstPageOfResults(forTag: tag) { (viewModels, error) in
+            guard let images = viewModels, error == nil else {
+                // Set error state
+                return
+            }
+            // Loading new search, don't append to prev snapshot
+            self.applySnapshot(images: images)
+        }
+    }
+    
+    func loadNextPageOfImages() {
+        
+        imageInteractor.getNextPageOfResults { (viewModels, error) in
+            guard let images = viewModels, error == nil else {
+                // Set error state
+                return
+            }
+            // Get current snapshot and append new images
+            var current = self.dataSource.snapshot()
+            current.appendItems(images)
+            self.applySnapshot(images: current.itemIdentifiers)
+        }
+    }
+}
+
 
 extension ImageSearchViewController { // Animation helpers
     
@@ -189,7 +200,7 @@ extension ImageSearchViewController { // Animation helpers
         searchBar.isUserInteractionEnabled = !showDetailView
         collectionView.isScrollEnabled = !showDetailView
         
-        UIView.animate(withDuration: showDetailView ? 0.4 : 0.6,
+        UIView.animate(withDuration: showDetailView ? 0.4 : 0.5,
                        delay: 0,
                        usingSpringWithDamping: showDetailView ? 0.9 : 0.8,
                        initialSpringVelocity: showDetailView ? 0.0 : 1.0,
@@ -197,7 +208,8 @@ extension ImageSearchViewController { // Animation helpers
             
             self.searchBar.alpha = self.showDetailView ? 0.2 : 1.0
             
-            self.collectionView.useGridLayout(withCellsPerRow: self.showDetailView ? 1 : self.cellsPerRow)
+            self.collectionView.useGridLayout(withCellsPerRow: self.showDetailView ?
+                                                1 : Constants.ImageGridUI.cellsPerRow)
             
             self.fadeCells(exceptFor: ip)
             
