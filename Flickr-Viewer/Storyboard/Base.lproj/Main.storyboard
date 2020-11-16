@@ -17,14 +17,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search Flickr images by tag" translatesAutoresizingMaskIntoConstraints="NO" id="NFt-ZO-Ar2">
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UHn-eh-bPC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                            </searchBar>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NL1-Sv-I0b">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="56"/>
+                                        <subviews>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="fdk-n0-Alx">
+                                                <rect key="frame" x="14" y="18" width="20" height="20"/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="fdk-n0-Alx" firstAttribute="centerY" secondItem="NL1-Sv-I0b" secondAttribute="centerY" id="39S-Th-nj2"/>
+                                            <constraint firstItem="fdk-n0-Alx" firstAttribute="centerX" secondItem="NL1-Sv-I0b" secondAttribute="centerX" constant="4" id="CvL-jW-HJf"/>
+                                            <constraint firstAttribute="width" constant="40" id="izh-WJ-Yr4"/>
+                                        </constraints>
+                                    </view>
+                                    <searchBar contentMode="redraw" placeholder="Search Flickr images by tag" translatesAutoresizingMaskIntoConstraints="NO" id="NFt-ZO-Ar2">
+                                        <rect key="frame" x="40" y="0.0" width="335" height="56"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <scopeButtonTitles>
+                                            <string>Title</string>
+                                            <string>Title</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="R60-OE-zK0"/>
+                                </constraints>
+                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dI8-U0-V27">
                                 <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -40,17 +62,19 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dI8-U0-V27" firstAttribute="top" secondItem="NFt-ZO-Ar2" secondAttribute="bottom" id="92m-eg-vyd"/>
                             <constraint firstItem="dI8-U0-V27" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GhT-YX-y1b"/>
-                            <constraint firstItem="NFt-ZO-Ar2" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="KpH-O4-KcU"/>
-                            <constraint firstItem="NFt-ZO-Ar2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LPz-Tx-nXl"/>
+                            <constraint firstItem="UHn-eh-bPC" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WVa-mF-yXU"/>
+                            <constraint firstItem="UHn-eh-bPC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hO4-Es-AbC"/>
+                            <constraint firstItem="dI8-U0-V27" firstAttribute="top" secondItem="UHn-eh-bPC" secondAttribute="bottom" id="hbp-0R-Etf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dI8-U0-V27" secondAttribute="bottom" id="sO6-AE-ghs"/>
-                            <constraint firstItem="NFt-ZO-Ar2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vkB-kI-Fl1"/>
+                            <constraint firstItem="UHn-eh-bPC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="yYB-n9-J8h"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dI8-U0-V27" secondAttribute="trailing" id="yiq-Ji-dam"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="fdk-n0-Alx" id="ncP-5M-mz5"/>
                         <outlet property="collectionView" destination="dI8-U0-V27" id="3jM-sa-m4f"/>
+                        <outlet property="loadingView" destination="NL1-Sv-I0b" id="1DI-gL-nPX"/>
                         <outlet property="searchBar" destination="NFt-ZO-Ar2" id="UaU-Of-EUd"/>
                     </connections>
                 </viewController>

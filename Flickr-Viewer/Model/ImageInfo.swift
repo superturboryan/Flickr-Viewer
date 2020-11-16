@@ -18,7 +18,7 @@ struct ImageInfoResult: Codable {
     
     let page: Int
     let pages: Int
-    let imageInfos: [ImageInfo]
+    let imageInfos: [ImageInfo] // page of results
     
     // JSON keys that are identical to properties default to raw string from case
     private enum CodingKeys: String, CodingKey {

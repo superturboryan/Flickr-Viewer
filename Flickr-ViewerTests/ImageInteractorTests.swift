@@ -55,7 +55,7 @@ class ImageInteractorTests: XCTestCase {
             }
         }
     
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
         
         XCTAssertEqual(imageInteractor.searchedTag, "Tag1")
         XCTAssertEqual(imageInteractor.pageToLoad, 3)
@@ -76,7 +76,7 @@ class ImageInteractorTests: XCTestCase {
             }
         }
         
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
         
         XCTAssertEqual(imageInteractor.searchedTag, "Tag2")
         XCTAssertEqual(imageInteractor.pageToLoad, 2)
@@ -114,4 +114,6 @@ class ImageInteractorTests: XCTestCase {
         XCTAssertNil(vm, "Should not have returned any view models")
         XCTAssertEqual(imageInteractor.pageToLoad, 1, "Should not have incremented pageToLoad")
     }
+    
+    
 }

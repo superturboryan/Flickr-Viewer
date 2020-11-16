@@ -21,6 +21,7 @@
 		94470A70256226900037D915 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DFC255E3D2400A9DAEB /* NetworkError.swift */; };
 		94470A73256226960037D915 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13DE5255E352900A9DAEB /* ServiceProtocols.swift */; };
 		94470A76256226A00037D915 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC57B82560A31B00213CAC /* Constants.swift */; };
+		94470A7A256231C80037D915 /* ImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94470A79256231C80037D915 /* ImageViewModelTests.swift */; };
 		94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */; };
 		94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */; };
 		94D13D88255DEB7A00A9DAEB /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */; };
@@ -61,6 +62,7 @@
 		74279E562F54989BC3F63C93 /* Pods-Flickr-ViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-ViewerTests.debug.xcconfig"; path = "Target Support Files/Pods-Flickr-ViewerTests/Pods-Flickr-ViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		94470A2E2562063B0037D915 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		94470A42256223830037D915 /* ImageInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractorTests.swift; sourceTree = "<group>"; };
+		94470A79256231C80037D915 /* ImageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelTests.swift; sourceTree = "<group>"; };
 		94D13D80255DEB7A00A9DAEB /* Flickr-Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr-Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				94D13D9C255DEB7C00A9DAEB /* Info.plist */,
 				94470A42256223830037D915 /* ImageInteractorTests.swift */,
+				94470A79256231C80037D915 /* ImageViewModelTests.swift */,
 			);
 			path = "Flickr-ViewerTests";
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				94470A73256226960037D915 /* ServiceProtocols.swift in Sources */,
 				94470A36256222490037D915 /* ImageInteractor.swift in Sources */,
 				94470A70256226900037D915 /* NetworkError.swift in Sources */,
+				94470A7A256231C80037D915 /* ImageViewModelTests.swift in Sources */,
 				94470A76256226A00037D915 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

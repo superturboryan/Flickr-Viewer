@@ -12,10 +12,12 @@ struct Constants {
     struct ImageGridUI {
         static let cellsPerRow:CGFloat = 2.0
         static let cellMargin:CGFloat = 2.0
+        static let imageDefaultTitle = "No title"
     }
     
     struct Networking {
         
+        static let timeout: TimeInterval = 10
         static let hostServer = "https://api.flickr.com"
         static let restAPIPath = "/services/rest"
         static let flickrAPIKey = "f9cc014fa76b098f9e82f1c288379ea1"

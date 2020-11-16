@@ -34,7 +34,7 @@ extension NetworkRequestBuilder {
         var request = try URLRequest(url: url, method: method, headers: headers)
         
         request.httpBody = try body()
-        request.timeoutInterval = 10
+        request.timeoutInterval = Constants.Networking.timeout
         
         return request
     }

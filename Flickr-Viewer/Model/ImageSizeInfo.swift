@@ -44,13 +44,12 @@ struct ImageSizeInfoTopLevelJSON: Codable {
 }
 
 enum ImageSize: String, Codable, CodingKey {
-    
     // Values taken from:
     // https://www.flickr.com/services/api/misc.urls.html
     
     case Small
-    case Small320 = "Small 320"
-    case Small400 = "Small 400"
+    case Small320  = "Small 320"
+    case Small400  = "Small 400"
     case Medium
     case Medium500 = "Medium 500"
     case Medium640 = "Medium 640"
@@ -58,10 +57,10 @@ enum ImageSize: String, Codable, CodingKey {
     case Large
     case Large1600 = "Large 1600"
     case Large2048 = "Large 2048"
-    case XLarge3K = "X-Large 3K"
-    case XLarge4K = "X-Large 4K"
-    case XLarge5K = "X-Large 5K"
-    case XLarge6K = "X-Large 6K"
+    case XLarge3K  = "X-Large 3K"
+    case XLarge4K  = "X-Large 4K"
+    case XLarge5K  = "X-Large 5K"
+    case XLarge6K  = "X-Large 6K"
     
     case Square
     case LargeSquare = "Large Square"

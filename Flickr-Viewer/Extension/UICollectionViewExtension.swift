@@ -15,18 +15,20 @@ extension UICollectionView {
         
         let margin = Constants.ImageGridUI.cellMargin
         
-        let cellSize = NSCollectionLayoutDimension.absolute((self.frame.size.width - ((cellsPerRow + 1) * margin)) / cellsPerRow)
+        // "Equal spacing"
+        let cellSize: CGFloat = (self.frame.size.width - ((cellsPerRow + 1) * margin)) / cellsPerRow
+        let cellDimension = NSCollectionLayoutDimension.absolute(cellSize)
         
         self.collectionViewLayout = UICollectionViewCompositionalLayout(
             sectionProvider: { (sectionNumber, _) -> NSCollectionLayoutSection? in
                 
                 // Return different NSCollectionLayoutSection based on sectionNumber
                 
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: cellSize,
-                                                                    heightDimension: cellSize))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: cellDimension,
+                                                                    heightDimension: cellDimension))
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                                                                 heightDimension: cellSize),
+                                                                                 heightDimension: cellDimension),
                                                                subitems: [item])
                 group.interItemSpacing = .fixed(margin)
                 

@@ -19,7 +19,9 @@ class ImageSearchViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
     
@@ -46,6 +48,8 @@ class ImageSearchViewController: UIViewController {
         hideKeyboardWhenTapped()
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
+        loadingView.isHidden = true
+        activityIndicator.hidesWhenStopped = false
     }
     
     private func setupCollectionView() {
@@ -89,8 +93,8 @@ class ImageSearchViewController: UIViewController {
         
         cell.delegate = self
         cell.titleLabel.text = vm.title
-        cell.isLoading = true
         
+        cell.isLoading = true
         self.imageInteractor.getImage(withUrl: url) { (image, error) in
             cell.isLoading = false
             cell.mainImageView.image = image
@@ -119,9 +123,7 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         imageInteractor.getImage(withUrl: url) { (image, error) in
             
             selectedCell.isLoading = false
-            
             guard let imageToDisplay = image, error == nil else { return }
-            
             // Animate imageView in and out using alpha to avoid flash when new image loads
             selectedCell.mainImageView.fadeOutAndInToImage(imageToDisplay)
         }
@@ -154,18 +156,19 @@ extension ImageSearchViewController: UISearchBarDelegate {
 extension ImageSearchViewController: ImageCollectionViewCellDelegate {
     
     func imageCellDidTapShareButton(WithSelectedImage image: UIImage) {
-        let ac = UIActivityViewController(activityItems: ["Check out this photo from Flickr! 📷",image],
+        let ac = UIActivityViewController(activityItems: ["Check out this photo from Flickr! 📷", image],
                                           applicationActivities: nil)
         present(ac, animated: true)
     }
 }
 
 
-private extension ImageSearchViewController { // Loading images helpers
+private extension ImageSearchViewController { // Loading image/pages helpers
     
     func loadFirstPageOfImages(forTag tag: String) {
-        
+        toggleLoadingAnimation(true)
         imageInteractor.getFirstPageOfResults(forTag: tag) { (viewModels, error) in
+            self.toggleLoadingAnimation(false)
             guard let images = viewModels, error == nil else {
                 // Set error state
                 return
@@ -176,8 +179,12 @@ private extension ImageSearchViewController { // Loading images helpers
     }
     
     func loadNextPageOfImages() {
-        
+        if imageInteractor.noMoreImagesForTag {
+            return
+        }
+        toggleLoadingAnimation(true)
         imageInteractor.getNextPageOfResults { (viewModels, error) in
+            self.toggleLoadingAnimation(false)
             guard let images = viewModels, error == nil else {
                 // Set error state
                 return
@@ -192,6 +199,18 @@ private extension ImageSearchViewController { // Loading images helpers
 
 
 extension ImageSearchViewController { // Animation helpers
+    
+    private func toggleLoadingAnimation(_ animation: Bool) {
+        
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseOut) {
+            self.loadingView.isHidden = !animation
+            animation ?
+                self.activityIndicator.startAnimating() :
+                self.activityIndicator.stopAnimating()
+        } completion: { (finished) in }
+    }
     
     private func toggleDetailView(forIndexPath ip: IndexPath) {
         

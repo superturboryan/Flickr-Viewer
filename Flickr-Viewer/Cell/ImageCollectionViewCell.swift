@@ -78,8 +78,9 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     
-    // When the share button is moved outside (below) the bounds,
-    // we still need it to be tappable so must override hitTest
+    // When the share button is moved outside (below) the bounds of the cell,
+    // we still need it to be tappable so must override hitTest and pass event
+    // to shareButton's hitTest method
     //https://stackoverflow.com/questions/5432995/interaction-beyond-bounds-of-uiview
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         

@@ -13,9 +13,9 @@ typealias ImageClosure = (UIImage?, Error?) -> Void
 
 protocol ImageAPI {
     
-    func fetchImageInfo(forTag tag: String, page: Int, completion: @escaping ImageInfoClosure) -> Void
+    func fetchImageInfo(forTag tag: String, page: Int, completion: @escaping ImageInfoClosure)
     
-    func fetchImageSizeInfo(forId imageId: String, completion: @escaping ImageSizeInfoClosure) -> Void
+    func fetchImageSizeInfo(forId imageId: String, completion: @escaping ImageSizeInfoClosure)
     
-    func fetchImage(withUrl url: URL, completion: @escaping ImageClosure) -> Void
+    func fetchImage(withUrl url: URL, completion: @escaping ImageClosure) 
 }

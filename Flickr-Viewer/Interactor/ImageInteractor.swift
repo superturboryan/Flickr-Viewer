@@ -24,7 +24,7 @@ class ImageInteractor {
         
         noMoreImagesForTag = false
         pageToLoad = 1 // Reset page
-        searchedTag = tag
+        searchedTag = tag // Reset searched tag
         getImageViewModels(forTag: searchedTag,
                            andPage: pageToLoad,
                            completion: completion)
