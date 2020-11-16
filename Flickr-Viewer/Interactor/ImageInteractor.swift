@@ -7,17 +7,50 @@
 
 import Foundation
 
-struct ImageInteractor {
+typealias ViewModelClosure = ([ImageViewModel]?, Error?) -> Void
+
+class ImageInteractor {
     
     private var serviceClient: ImageAPI
+    private var pageToLoad = 1
+    private var searchedTag = ""
 
     init(client: ImageAPI) {
         serviceClient = client
     }
     
-    func getImageViewModels(forTag tag:String, andPage page:Int, completion: @escaping ([ImageViewModel]?, Error?) -> Void) {
+    func getFirstPageOfResults(forTag tag: String, completion: @escaping ViewModelClosure) {
         
-        serviceClient.fetchImageInfo(forTag: tag, page: page) { (result, error) in
+        pageToLoad = 1 // Reset page
+        searchedTag = tag
+        getImageViewModels(forTag: searchedTag,
+                           andPage: pageToLoad,
+                           completion: completion)
+    }
+    
+    func getNextPageOfResults(completion: @escaping ViewModelClosure) {
+        
+        pageToLoad += 1
+        getImageViewModels(forTag: searchedTag,
+                           andPage: pageToLoad,
+                           completion: completion)
+    }
+    
+    func getImage(withUrl url: URL, completion: @escaping ImageClosure) {
+        
+        serviceClient.fetchImage(withUrl: url,
+                                 completion: completion)
+    }
+}
+
+private extension ImageInteractor {
+    
+    func getImageViewModels(forTag tag:String,
+                                    andPage page:Int,
+                                    completion: @escaping ViewModelClosure) {
+        
+        serviceClient.fetchImageInfo(forTag: tag,
+                                     page: page) { (result, error) in
             
             guard let imageInfos = result?.imageInfos, error == nil else {
                 
@@ -33,10 +66,11 @@ struct ImageInteractor {
                 
                 group.enter()
                 
-                serviceClient.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
+                self.serviceClient.fetchImageSizeInfo(forId: imageInfo.id) { (sizeInfoResult, error) in
                     
                     if let sizeInfos = sizeInfoResult {
                         
+                        // Combine image info with size info for displaying in view
                         viewModels.append(ImageViewModel(info: imageInfo,
                                                          sizes: sizeInfos))
                     }
@@ -49,10 +83,5 @@ struct ImageInteractor {
                 completion(viewModels,nil)
             }
         }
-    }
-    
-    func getImage(withUrl url: URL, completion: @escaping ImageClosure) {
-        
-        serviceClient.fetchImage(withUrl: url, completion: completion)
     }
 }

@@ -4,7 +4,9 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,6 +19,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dru-te-2X1" userLabel="Share Button">
+                        <rect key="frame" x="125" y="250" width="50" height="50"/>
+                        <color key="backgroundColor" systemColor="secondaryLabelColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Dru-te-2X1" secondAttribute="height" multiplier="1:1" id="h3X-wW-Ijw"/>
+                            <constraint firstAttribute="width" constant="50" id="pB4-bR-ylR"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <color key="tintColor" systemColor="labelColor"/>
+                        <state key="normal">
+                            <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="large"/>
+                        </state>
+                        <connections>
+                            <action selector="tappedShareButton:" destination="gTV-IL-0wX" eventType="touchUpInside" id="nqc-0H-pTl"/>
+                        </connections>
+                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vH6-7v-D9V">
                         <rect key="frame" x="20" y="0.0" width="260" height="21.5"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
@@ -36,6 +54,7 @@
                 <constraint firstItem="jfz-GO-z39" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="1Ug-VW-BGp"/>
                 <constraint firstItem="vH6-7v-D9V" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="58N-ml-s74"/>
                 <constraint firstAttribute="trailing" secondItem="jjK-mS-Xfd" secondAttribute="trailing" id="8Fe-Jr-4qY"/>
+                <constraint firstAttribute="bottom" secondItem="Dru-te-2X1" secondAttribute="bottom" id="J8m-Sh-XNI"/>
                 <constraint firstAttribute="trailing" secondItem="vH6-7v-D9V" secondAttribute="trailing" constant="20" id="JDH-HQ-oYm"/>
                 <constraint firstItem="vH6-7v-D9V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="WqV-op-dsG"/>
                 <constraint firstItem="jjK-mS-Xfd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="aue-r7-mTG"/>
@@ -43,13 +62,24 @@
                 <constraint firstItem="jfz-GO-z39" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="nQe-DU-hie"/>
                 <constraint firstItem="vH6-7v-D9V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="ncx-pU-M79"/>
                 <constraint firstAttribute="bottom" secondItem="jjK-mS-Xfd" secondAttribute="bottom" id="xvD-dW-1uY"/>
+                <constraint firstItem="Dru-te-2X1" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="yGi-Ov-zFp"/>
             </constraints>
             <connections>
                 <outlet property="activityIndicator" destination="jfz-GO-z39" id="DFz-8G-Gbm"/>
                 <outlet property="mainImageView" destination="jjK-mS-Xfd" id="20L-MC-3m3"/>
+                <outlet property="shareButton" destination="Dru-te-2X1" id="cII-vP-ylW"/>
                 <outlet property="titleLabel" destination="vH6-7v-D9V" id="XJQ-MC-I7v"/>
             </connections>
             <point key="canvasLocation" x="142" y="154"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

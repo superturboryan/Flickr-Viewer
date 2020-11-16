@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		41464FDDC4B649E41C0C2057 /* Pods_Flickr_Viewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21959AFBA8C2E76204CE68A3 /* Pods_Flickr_Viewer.framework */; };
+		94470A2F2562063B0037D915 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94470A2E2562063B0037D915 /* UIViewExtension.swift */; };
 		94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */; };
 		94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */; };
 		94D13D88255DEB7A00A9DAEB /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		21959AFBA8C2E76204CE68A3 /* Pods_Flickr_Viewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Flickr_Viewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74279E562F54989BC3F63C93 /* Pods-Flickr-ViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flickr-ViewerTests.debug.xcconfig"; path = "Target Support Files/Pods-Flickr-ViewerTests/Pods-Flickr-ViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		94470A2E2562063B0037D915 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		94D13D80255DEB7A00A9DAEB /* Flickr-Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr-Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -214,8 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */,
-				94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */,
 				94DC57B325609F9800213CAC /* UIImageViewExtension.swift */,
+				94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */,
+				94470A2E2562063B0037D915 /* UIViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -239,10 +242,10 @@
 		94D13E1F255F961800A9DAEB /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				94D13D91255DEB7C00A9DAEB /* Info.plist */,
+				94DC57B82560A31B00213CAC /* Constants.swift */,
 				94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */,
 				94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */,
-				94DC57B82560A31B00213CAC /* Constants.swift */,
+				94D13D91255DEB7C00A9DAEB /* Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */,
 				94DC57A9256097E900213CAC /* ImageInteractor.swift in Sources */,
 				94DC57C32560A91200213CAC /* ImageViewModel.swift in Sources */,
+				94470A2F2562063B0037D915 /* UIViewExtension.swift in Sources */,
 				94D13E19255F922F00A9DAEB /* UIViewControllerExtension.swift in Sources */,
 				94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */,
 				94D13DFD255E3D2400A9DAEB /* NetworkError.swift in Sources */,

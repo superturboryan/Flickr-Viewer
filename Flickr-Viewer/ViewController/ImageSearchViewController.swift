@@ -24,10 +24,7 @@ class ImageSearchViewController: UIViewController {
     private var dataSource: DataSource!
     private var snapshot = DataSourceSnapshot()
 
-    private var searchedTag = ""
-    private var pageToLoad = 1
     private var showDetailView = false
-    
     private var cellsPerRow: CGFloat = 2
     
     override func viewDidLoad() {
@@ -70,25 +67,29 @@ class ImageSearchViewController: UIViewController {
         })
     }
     
-    private func loadImages(forTag tag: String, andPage fetchedPage: Int) {
+    private func loadFirstPageOfImages(forTag tag: String) {
         
-        imageInteractor.getImageViewModels(forTag: tag, andPage: fetchedPage) { (viewModels, error) in
-            
+        imageInteractor.getFirstPageOfResults(forTag: tag) { (viewModels, error) in
             guard let images = viewModels, error == nil else {
                 // Set error state
                 return
             }
-            
-            self.pageToLoad += 1
-            
-            if fetchedPage == 1 { // Loading new search, don't append
-                self.applySnapshot(images: images)
+            // Loading new search, don't append
+            self.applySnapshot(images: images)
+        }
+    }
+    
+    private func loadNextPageOfImages() {
+        
+        imageInteractor.getNextPageOfResults { (viewModels, error) in
+            guard let images = viewModels, error == nil else {
+                // Set error state
+                return
             }
-            else { // Get current snapshot and append!
-                var current = self.dataSource.snapshot()
-                current.appendItems(images)
-                self.applySnapshot(images: current.itemIdentifiers)
-            }
+            // Get current results and append new ones
+            var current = self.dataSource.snapshot()
+            current.appendItems(images)
+            self.applySnapshot(images: current.itemIdentifiers)
         }
     }
 
@@ -104,7 +105,12 @@ class ImageSearchViewController: UIViewController {
     
     private func configureCell(_ cell:ImageCollectionViewCell, withViewModel vm: ImageViewModel) {
         
-        let url = URL(string: vm.largeSquare)!
+        guard let url = URL(string: vm.largeSquare) else {
+            // Set error state for cell?
+            return
+        }
+        
+        cell.delegate = self
         cell.titleLabel.text = vm.title
         cell.isLoading = true
         
@@ -122,10 +128,14 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         toggleDetailView(forIndexPath: indexPath)
         
         guard let selectedViewModel = dataSource.itemIdentifier(for: indexPath),
-              let selectedCell = collectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell,
-              let url = URL(string: showDetailView ? selectedViewModel.large : selectedViewModel.largeSquare) else { return }
+              let selectedCell = collectionView.cellForItem(at: indexPath) as? ImageCollectionViewCell else { return }
 
+        collectionView.bringSubviewToFront(selectedCell)
+        
         selectedCell.showTitleLabel = showDetailView
+        selectedCell.showShareButton = showDetailView
+        
+        guard let url = URL(string: showDetailView ? selectedViewModel.large : selectedViewModel.largeSquare) else { return }
         selectedCell.isLoading = true
         
         imageInteractor.getImage(withUrl: url) { (image, error) in
@@ -144,7 +154,7 @@ extension ImageSearchViewController: UICollectionViewDelegate {
         let aboutToDisplayLastCell = indexPath.row == dataSource.collectionView(collectionView, numberOfItemsInSection: 0) - 1
         
         if aboutToDisplayLastCell {
-            self.loadImages(forTag: searchedTag, andPage: pageToLoad)
+            self.loadNextPageOfImages()
         }
     }
 }
@@ -153,14 +163,20 @@ extension ImageSearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        pageToLoad = 1 // Reset current page
-        
-        if let searchText = searchBar.text?.lowercased() {
+        if let searchText = searchBar.text?.lowercased(), searchText != "" {
             
-            self.searchedTag = searchText
-            loadImages(forTag: searchText, andPage: pageToLoad)
+            loadFirstPageOfImages(forTag: searchText)
         }
         searchBar.resignFirstResponder()
+    }
+}
+
+extension ImageSearchViewController: ImageCollectionViewCellDelegate {
+    
+    func imageCellDidTapShareButton(WithSelectedImage image: UIImage) {
+        let ac = UIActivityViewController(activityItems: ["Check out this photo from Flickr! 📷",image],
+                                          applicationActivities: nil)
+        present(ac, animated: true)
     }
 }
 
