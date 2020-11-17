@@ -24,6 +24,7 @@
 		94470A7A256231C80037D915 /* ImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94470A79256231C80037D915 /* ImageViewModelTests.swift */; };
 		9489E09C25633AFE00B04CC8 /* MockImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489E09B25633AFE00B04CC8 /* MockImageClient.swift */; };
 		9489E09D25633AFE00B04CC8 /* MockImageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489E09B25633AFE00B04CC8 /* MockImageClient.swift */; };
+		9489E0A925635A6500B04CC8 /* HapticsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489E0A825635A6500B04CC8 /* HapticsExtension.swift */; };
 		94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */; };
 		94D13D86255DEB7A00A9DAEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */; };
 		94D13D88255DEB7A00A9DAEB /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */; };
@@ -66,10 +67,11 @@
 		94470A42256223830037D915 /* ImageInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInteractorTests.swift; sourceTree = "<group>"; };
 		94470A79256231C80037D915 /* ImageViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModelTests.swift; sourceTree = "<group>"; };
 		9489E09B25633AFE00B04CC8 /* MockImageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageClient.swift; sourceTree = "<group>"; };
+		9489E0A825635A6500B04CC8 /* HapticsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsExtension.swift; sourceTree = "<group>"; };
 		94D13D80255DEB7A00A9DAEB /* Flickr-Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flickr-Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D13D83255DEB7A00A9DAEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94D13D85255DEB7A00A9DAEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchViewController.swift; sourceTree = "<group>"; };
+		94D13D87255DEB7A00A9DAEB /* ImageSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchViewController.swift; sourceTree = "<group>"; tabWidth = 3; };
 		94D13D8A255DEB7A00A9DAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		94D13D8C255DEB7C00A9DAEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94D13D8F255DEB7C00A9DAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		94D13E0F255F91CC00A9DAEB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				9489E0A825635A6500B04CC8 /* HapticsExtension.swift */,
 				94D13E10255F91FD00A9DAEB /* UICollectionViewExtension.swift */,
 				94DC57B325609F9800213CAC /* UIImageViewExtension.swift */,
 				94D13E18255F922F00A9DAEB /* UIViewControllerExtension.swift */,
@@ -465,6 +468,7 @@
 				94D13DDD255E2FF400A9DAEB /* ImageAPIProtocols.swift in Sources */,
 				94D13E11255F91FD00A9DAEB /* UICollectionViewExtension.swift in Sources */,
 				94D13D84255DEB7A00A9DAEB /* AppDelegate.swift in Sources */,
+				9489E0A925635A6500B04CC8 /* HapticsExtension.swift in Sources */,
 				94D13DBC255DEDC800A9DAEB /* ImageCollectionViewCell.swift in Sources */,
 				94D13DF8255E3B1600A9DAEB /* ImageClient.swift in Sources */,
 				94D13DF3255E397800A9DAEB /* ImageNetworkService.swift in Sources */,
@@ -663,7 +667,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RyanDavidForsyth.Flickr-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -684,7 +688,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RyanDavidForsyth.Flickr-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

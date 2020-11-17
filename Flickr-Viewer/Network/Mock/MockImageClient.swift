@@ -21,7 +21,7 @@ extension MockImageClient: ImageAPI {
     
     func fetchImageSizeInfo(forId imageId: String, completion: @escaping ImageSizeInfoClosure) {
         completion(ImageSizeInfoResult(imageSizeInfos: [ImageSizeInfo(source: "mock", flickrURL: "mockUrl", size: .Large),
-                                                        ImageSizeInfo(source: "mock", flickrURL: "mockUrl", size: .LargeSquare)]),
+                                                        ImageSizeInfo(source: "mock2", flickrURL: "mockUrl2", size: .LargeSquare)]),
                   nil)
     }
     

@@ -15,7 +15,6 @@ final class ImageNetworkService: NetworkService {
     static let shared: ImageNetworkService = ImageNetworkService()
     
     var sessionManager: Session = .default
-    
     var imageDownloader: ImageDownloader = ImageDownloader()
     
     func request(_ urlRequest: URLRequestConvertible) -> DataRequest {

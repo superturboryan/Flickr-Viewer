@@ -14,7 +14,6 @@ class ImageInteractorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
         imageInteractor = ImageInteractor(client: MockImageClient.shared)
     }
     
@@ -119,5 +118,21 @@ class ImageInteractorTests: XCTestCase {
         
         XCTAssertNil(vm, "Should not have returned any view models")
         XCTAssertEqual(imageInteractor.pageToLoad, 1, "Should not have incremented pageToLoad")
+    }
+    
+    func test_fetching_image() {
+        
+        let expectation = self.expectation(description: "Loading image")
+        var returnedImage: UIImage?
+        
+        imageInteractor.getImage(withUrl: URL(string: "https://www.testURL.com")!) { (image, error) in
+            
+            returnedImage = image
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5, handler: nil)
+        
+        XCTAssertNotNil(returnedImage)
     }
 }

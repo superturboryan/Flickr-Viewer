@@ -27,7 +27,6 @@ class ImageSearchViewController: UIViewController {
 
     private var showDetailView = false
     
-    // Inject client conforming to API protocol here to allow testing with mock client/data
     private var imageInteractor = ImageInteractor(client: ImageClient.shared)
 
     override func viewDidLoad() {
@@ -143,7 +142,7 @@ extension ImageSearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         if let searchText = searchBar.text?.lowercased(), searchText != "" {
-            
+            Haptics.impact(forStyle: .soft)
             loadFirstPageOfImages(forTag: searchText)
         }
         searchBar.resignFirstResponder()
@@ -180,6 +179,7 @@ private extension ImageSearchViewController { // Loading image/pages helpers
         if imageInteractor.noMoreImagesForTag {
             return
         }
+        Haptics.impact(forStyle: .light)
         toggleLoadingAnimation(true)
         imageInteractor.getNextPageOfResults { (viewModels, error) in
             self.toggleLoadingAnimation(false)

@@ -17,6 +17,7 @@ class ImageInteractor {
     private(set) var noMoreImagesForTag = false
 
     init(client: ImageAPI) {
+        // Inject mock client conforming to API to unit test interactor business logic
         serviceClient = client
     }
     
@@ -24,6 +25,7 @@ class ImageInteractor {
         
         if tag == "" {
             completion(nil, NetworkError.invalidTag)
+            return
         }
         
         noMoreImagesForTag = false
