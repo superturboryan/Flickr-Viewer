@@ -8,7 +8,7 @@ Browse and share publicly available images from the Flickr API
 
 🍫  Dependency manager: Cocoapods
 
-🏃‍♂️ To run project, open Flickr-Viewer **.xcworkspace** file 
+🏃‍♂️ To run project, open Flickr-Viewer **.xcworkspace** file and configure Team and Bundle Identifier
 
 **Note**: No need to run `pod install/update/anything` - pods are included in repo
 
