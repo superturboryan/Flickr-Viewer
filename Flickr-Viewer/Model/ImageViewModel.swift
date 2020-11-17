@@ -14,6 +14,7 @@ import Foundation
 
 struct ImageViewModel: Hashable {
     
+    private var id = UUID()
     private(set) var largeSquare: String
     private(set) var large: String
     private(set) var title: String

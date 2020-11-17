@@ -53,6 +53,7 @@ class ImageSearchViewController: UIViewController {
     
     private func setupCollectionView() {
         
+        collectionView.keyboardDismissMode = .interactive
         collectionView.delegate = self
         collectionView.useGridLayout(withCellsPerRow: Constants.ImageGridUI.cellsPerRow)
         collectionView.register(UINib(nibName: ImageCollectionViewCell.id, bundle: nil),
