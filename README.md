@@ -2,7 +2,9 @@
 
 # Flickr-Viewer 
   
-Browse and share publicly available images from the Flickr API
+Browse and share publicly available images from the Flickr API.  
+
+🔧 Uses modern UICollectionView APIs like NSDiffableDataSource and UICollectionViewCompositionalLayout.  
 
 💻  Versions: Xcode 12.1 / Swift 5
 
