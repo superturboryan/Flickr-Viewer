@@ -4,8 +4,6 @@
   
 Browse and share publicly available images from the Flickr API
 
-## Mindera technical challenge notes
-
 💻  Versions: Xcode 12.1 / Swift 5
 
 🍫  Dependency manager: Cocoapods
